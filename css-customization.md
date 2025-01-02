@@ -19,7 +19,9 @@ When you inspect the DOM in Storybook, you’ll notice most elements have at lea
 
 Classes beginning with `kc` don’t have any styles applied to them by default. Their sole purpose is to serve as selectors for your custom styles.
 
-Classes beginning with `pf-` are Patternfly classes. [Patternfly](https://v5-archive.patternfly.org/) is a CSS framework created by RedHat, similar to Bootstrap, that the Keycloak team uses to build all of its UIs.
+Classes beginning with `pf-` are Patternfly classes. [Patternfly](https://v5-archive.patternfly.org/) is a CSS framework created by RedHat, similar to Bootstrap, that the Keycloak team uses to build all of its UIs. &#x20;
+
+What you’ll want to do is partially or completely remove the Patternfly styles and then apply your custom ones.
 
 ## Applying your custom CSS
 
@@ -58,9 +60,10 @@ This is the result:
 <figure><img src=".gitbook/assets/image (27).png" alt="" width="375"><figcaption><p>A red border has been applied to every input label</p></figcaption></figure>
 
 <details>
+
 <summary>Having different stylesheets for the login page, the register page, etc...</summary>
 
-Here, we used a global stylesheet that applies to all pages of the login theme. However, you can also apply different stylesheets on a page-by-page basis (one for the login page, another one for the register page, etc...).&#x20;
+Here, we used a global stylesheet that applies to all pages of the login theme. However, you can also apply different stylesheets on a page-by-page basis (one for the login page, another one for the register page, etc...).
 
 If you plan to customize the pages using React/Angular/Svelte at the component level, it will be very clear how to do so after reading the [using a component library page](common-use-case-examples/using-a-component-library.md).
 
@@ -144,13 +147,16 @@ If this code doesn’t make much sense, you can watch [this video tutorial](http
 </details>
 
 <details>
+
 <summary>Using Tailwind</summary>
 
 Of course, you can use Tailwind in the usual way by applying utility classes to the React/Angular/Svelte components.\
 But note that you can also use Tailwind without modifying the page structure by using the `@apply` directive. This is shown in [this page](css-customization.md#using-tailwind).
+
 </details>
 
 <details>
+
 <summary>Using Bootstrap or some other CSS framework</summary>
 
 If you want to use Bootstrap or another CSS framework that provides standardized classes, you might wonder how to apply these classes.\
@@ -264,6 +270,7 @@ Now you can freely apply your own custom button styles without Patternfly interf
 <figure><img src=".gitbook/assets/custom-button.gif" alt="" width="375"><figcaption><p>Button with custom style</p></figcaption></figure>
 
 <details>
+
 <summary>Reveal custom CSS code for this custom button</summary>
 
 {% code title="src/login/main.css" %}
@@ -364,7 +371,7 @@ export async function getKcPage(pageId: KcContext['pageId']): Promise&#x3C;KcPag
 
 ### Disabling the default styles only on some pages
 
-A common scenario is using `npx keycloakify eject-page` to customize only certain pages of the login UI in depth.&#x20;
+A common scenario is using [`npx keycloakify eject-page`](common-use-case-examples/using-a-component-library.md) to customize only certain pages of the login UI in depth.
 
 For pages you've ejected, you’ll likely want to disable all default styles; however, you might prefer to keep the Patternfly styles on the pages you haven't redesigned.\
 Below is an example where `login.ftl` has been ejected and its default styles are disabled, while the other pages remain styled:
@@ -475,7 +482,7 @@ If you have ejected some pages with [`npx keycloakify eject-page`](common-use-ca
 />
 </code></pre>
 
-The short answer is no; feel free to remove them.&#x20;
+The short answer is no; feel free to remove them.
 
 Just be aware that if you have defined any custom CSS targeting those classes (for example `.kcButtonClass { /* ... */ }`), they will no longer apply once you remove the classes.
 
