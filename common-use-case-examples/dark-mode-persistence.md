@@ -4,29 +4,29 @@ icon: circle-half-stroke
 
 # Dark Mode Persistence
 
-If your app features an dark/light mode you might be wondering how to "transport" the mode to your login theme so that you can ensure that if your user is brwosing your app in dark mode when they click on "Login", they get redirected to your Keycloakify login UI rendered in dark mode.
+If your app offers a dark/light mode, you might be wondering how to “transfer” that mode to your login theme. This ensures that if users are browsing your app in dark mode, then click “Login,” they’ll be redirected to a Keycloakify login UI that’s rendered in dark mode.
 
 {% embed url="https://youtu.be/EbNGhg5aNF8" %}
-Example of a Keycloakify theme implementation that implement dark mode persistance
+Example of a Keycloakify theme implementation that carries over dark mode
 {% endembed %}
 
-This is somewhat of a niche usecase but it's interesting as it will help you understant how you can transport states from your app to your Keycloak UIs. &#x20;
+This is somewhat of a niche use case, but it illustrates how you can pass state from your application to your Keycloak UIs. &#x20;
 
-## In your Web Application
+## In Your Web Application
 
-So typically, from your web application, when your user click on your "Login" button in your header you will redirect it to a URL that look a bit like this: &#x20;
+Typically, when your user clicks your “Login” button in the header, your application will redirect them to a URL that looks something like this:
 
 **https://\<your-keycloak-url>/realms/protocol/openid-connect/auth?client\_id=\<your-client>**
 
-What we want to do is add, for example `"&dark=true"` or `"&dark=false"` to the URL so that it can be retreived on the other side by your Keycloak theme.
+What we want to do is append, for example, `&dark=true` or `&dark=false` to that URL so it can be retrieved on the other side by your Keycloak theme.
 
-The way you'd do that will vary depending on your Stack but let's see an example whit:
+How you do that depends on your stack. Let’s look at an example with:
 
-* A React SPA
-* [oidc-spa](https://www.oidc-spa.dev/): A modern alternative to keycloak-js
-* [MUI](https://mui.com/material-ui/): A popular React Component library in the React world
+- A React SPA
+- [oidc-spa](https://www.oidc-spa.dev/), a modern alternative to `keycloak-js`
+- [MUI](https://mui.com/material-ui/), a popular React component library
 
-The following snippet is a React component that you would typically use in the header of your application to display the Login and Register buttons.
+The following snippet is a React component typically placed in the header of your application for displaying Login and Register buttons.
 
 <figure><img src="../.gitbook/assets/image (201).png" alt=""><figcaption></figcaption></figure>
 
@@ -39,14 +39,17 @@ import { assert } from "tsafe/assert";
 export function AuthButtons() {
   const { isUserLoggedIn, login } = useOidc();
 
-  assert(!isUserLoggedIn, "If this component is rendered, the user should not be logged in");
+  assert(
+    !isUserLoggedIn,
+    "If this component is rendered, the user should not be logged in"
+  );
 
   const theme = useTheme();
 
   const extraQueryParams = {
     dark: theme.palette.mode === "dark" ? "true" : "false",
-    // ui_locales is a special query param that Keycloak recognize
-    // you can set it to make sure that the login pages will be 
+    // ui_locales is a special query param that Keycloak recognizes.
+    // You can set it to make sure the login pages are
     // displayed in the correct language.
     ui_locales: "en"
   };
@@ -56,8 +59,8 @@ export function AuthButtons() {
       <Button
         onClick={() =>
           login({
-              doesCurrentHrefRequiresAuth: false,
-              extraQueryParams
+            doesCurrentHrefRequiresAuth: false,
+            extraQueryParams
           })
         }
       >
@@ -69,26 +72,27 @@ export function AuthButtons() {
           login({
             doesCurrentHrefRequiresAuth: false,
             transformUrlBeforeRedirect: url => {
-                const urlObj = new URL(url);
-
-                urlObj.pathname = urlObj.pathname.replace(/\/auth$/, "/registrations");
-
-                return urlObj.href;
+              const urlObj = new URL(url);
+              urlObj.pathname = urlObj.pathname.replace(
+                /\/auth$/,
+                "/registrations"
+              );
+              return urlObj.href;
             },
             extraQueryParams
           })
         }
       >
-          Register
+        Register
       </Button>
     </>
   );
 }
 ```
 
-## In your Login Theme
+## In Your Login Theme
 
-In your Keycloak theme now, you can create an utility that will read your cusom `&dark=true|false` parameter.
+Within your Keycloak theme, you can now create a utility to read your custom `&dark=true|false` parameter.
 
 {% code title="src/shared/isDark.ts" %}
 ```typescript
@@ -96,35 +100,31 @@ const SESSION_STORAGE_KEY = "isDark";
 
 function getIsDark(): boolean | undefined {
     from_url: {
-
         const url = new URL(window.location.href);
 
         const value = url.searchParams.get("dark");
 
         if (value === null) {
-            // There was no &dark= query param in the URL
-            // we will try to see if it's in the session storage.
+            // There was no &dark= query param in the URL,
+            // so we check session storage next.
             break from_url;
         }
 
-        // Removing &dark= from the URL (just to be cute)
-        {
-            url.searchParams.delete("dark");
-            window.history.replaceState({}, "", url.toString());
-        }
+        // Remove &dark= from the URL (just to keep it clean)
+        url.searchParams.delete("dark");
+        window.history.replaceState({}, "", url.toString());
 
         const isDark = value === "true";
         
-        // Persisting the value in session storage so that
-        // if the user navigate for example from login.ftl to
-        // register.ftl we do not lose the state.
+        // Persist the value in session storage so that
+        // if the user navigates, for example, from login.ftl to
+        // register.ftl, we don’t lose the state.
         sessionStorage.setItem(SESSION_STORAGE_KEY, `${isDark}`);
 
         return isDark;
     }
 
     from_session_storage: {
-
         const value = sessionStorage.getItem(SESSION_STORAGE_KEY);
 
         if (value === null) {
@@ -132,7 +132,6 @@ function getIsDark(): boolean | undefined {
         }
 
         return value === "true";
-
     }
 
     return undefined;
@@ -140,39 +139,37 @@ function getIsDark(): boolean | undefined {
 ```
 {% endcode %}
 
-The way you would use this utility will very much tepend of your framwork and ui library but for example with React/MUI this it what it could look like:
+How you use this utility depends heavily on your framework and UI library. As an example, here’s what it might look like with React/MUI:
 
 <pre class="language-tsx" data-title="src/login/KcPage.tsx"><code class="lang-tsx">import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
 import Template from "keycloakify/login/Template";
-<strong>import { createTheme, ThemeProvider } from "@mui/material/styles";
-</strong><strong>import { getIsDark } from "../shared/isDark";
-</strong>
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { getIsDark } from "../shared/isDark";
 const UserProfileFormFields = lazy(() => import("keycloakify/login/UserProfileFormFields"));
 
 const doMakeUserConfirmPassword = true;
 
-<strong>const theme_dark = createTheme({
-</strong><strong>    palette: {
-</strong><strong>        mode: "dark"
-</strong><strong>    }
-</strong><strong>});
-</strong>
-<strong>const theme_light = createTheme({
-</strong><strong>    palette: {
-</strong><strong>        mode: "light"
-</strong><strong>    }
-</strong><strong>});
-</strong>
-<strong>export default function KcPage(props: { kcContext: KcContext }) {
-</strong><strong>    return (
-</strong><strong>        &#x3C;ThemeProvider theme={getIsDark() ? theme_dark : theme_light}>
-</strong><strong>            &#x3C;KcPageContextualized {...props} />
-</strong><strong>        &#x3C;/ThemeProvider>
-</strong><strong>    );
-</strong><strong>}
-</strong>
+const theme_dark = createTheme({
+    palette: {
+        mode: "dark"
+    }
+});
+const theme_light = createTheme({
+    palette: {
+        mode: "light"
+    }
+});
+
+export default function KcPage(props: { kcContext: KcContext }) {
+    return (
+        &#x3C;ThemeProvider theme={getIsDark() ? theme_dark : theme_light}>
+            &#x3C;KcPageContextualized {...props} />
+        &#x3C;/ThemeProvider>
+    );
+}
+
 function KcPageContextualized(props: { kcContext: KcContext }) {
     const { kcContext } = props;
     const { i18n } = useI18n({ kcContext });
