@@ -5,29 +5,29 @@ icon: css3-alt
 # CSS Customization
 
 {% hint style="info" %}
-This page is a must read, even if you plan on redesinging the pages at the component level you must at least understand how to remove the default CSS styles.
+This page is a must-read. Even if you plan to redesign the pages at the component level, you should at least understand how to remove the default CSS styles.
 {% endhint %}
 
 ## Understanding the CSS class system
 
-Upon inspecting the DOM in storybook you will see that most element have at least a couple of classes applied to them.
+When you inspect the DOM in Storybook, you’ll notice most elements have at least a couple of classes applied to them:
 
 * A class starting with `kc`, for example `kcLabelClass`.
-* One or more classes with pf-, for example `pf-c-form__label`, `pf-c-form__label-text`
+* One or more classes starting with `pf-`, for example `pf-c-form__label`, `pf-c-form__label-text`.
 
 <figure><img src=".gitbook/assets/image (26).png" alt=""><figcaption><p>Inspecting an input label on the login page</p></figcaption></figure>
 
-The classes starting with kc do not have any actual styles applied to them. Their sole purpose is to be a target for you to apply your custom styles.
+Classes beginning with `kc` don’t have any styles applied to them by default. Their sole purpose is to serve as selectors for your custom styles.
 
-The classes with pf- are Paterfly classes. [Patternfly](https://v5-archive.patternfly.org/) is a CSS framwork in the like of Bootstrap created by RedHat, it is what the the Keycloak team uses to build all their UIs.
+Classes beginning with `pf-` are Patternfly classes. [Patternfly](https://v5-archive.patternfly.org/) is a CSS framework created by RedHat, similar to Bootstrap, that the Keycloak team uses to build all of its UIs.
 
 ## Applying your custom CSS
 
 {% hint style="danger" %}
-Do not edit the any file in the `public/keycloakify-dev-resources` directory. Thoses are resource files used by Storybook for simulating a Keycloak environement during devloppement, thoses files aren't part of your theme.&#x20;
+Do not edit any file in the `public/keycloakify-dev-resources` directory. These files are used by Storybook to simulate a Keycloak environment during development, and they aren't part of your actual theme.
 {% endhint %}
 
-To apply your custom CSS style you should use the kc classes to target the components.
+To apply your custom CSS style, use the `kc` classes to target the components.
 
 {% code title="src/login/main.css" %}
 ```css
@@ -53,19 +53,18 @@ To apply your custom CSS style you should use the kc classes to target the compo
 {% endtab %}
 {% endtabs %}
 
-This will be the result:
+This is the result:
 
 <figure><img src=".gitbook/assets/image (27).png" alt="" width="375"><figcaption><p>A red border has been applied to every input label</p></figcaption></figure>
 
 <details>
+<summary>Having different stylesheets for the login page, the register page, etc...</summary>
 
-<summary>Having diferent stylesheet for the login page, the register page ext...</summary>
+Here, we used a global stylesheet that applies to all pages of the login theme. However, you can also apply different stylesheets on a page-by-page basis (one for the login page, another one for the register page, etc...).&#x20;
 
-Here we used a global stylesheet that applies to all pages of the login theme however you can also apply stylesheet on a page-by-page basis (a stylesheet for the login page, another stylesheet for the register page ect...).&#x20;
+If you plan to customize the pages using React/Angular/Svelte at the component level, it will be very clear how to do so after reading the [using a component library page](common-use-case-examples/using-a-component-library.md).
 
-If you are planning to customize the pages using React/Angular/Svelte at the component level it will be very obvious how to do so after reading the [using a component library page](common-use-case-examples/using-a-component-library.md).
-
-However if you plan to stick with with CSS only customization it might not be apparent to you how to do it so here is [a snipet of React code](#user-content-fn-1)[^1] shat show how it can be acheived:
+However, if you plan to only customize with CSS, it might not be immediately obvious. Below is [a snippet of React code](#user-content-fn-1)[^1] showing how you can achieve separate stylesheets:
 
 {% code title="src/login/KcPage.tsx" %}
 ```tsx
@@ -107,27 +106,27 @@ export default function KcPage(props: { kcContext: KcContext }) {
 function useCustomStyles(kcContext: KcContext) {
     return useMemo(() => {
         
-        // You stylesheet that applies to all pages.
+        // Your stylesheet that applies to all pages.
         import("./main.css");
         let classes: { [key in ClassKey]?: string } = {
-            // Your classes that applies to all pages
+            // Classes that apply to all pages
         };
 
         switch (kcContext.pageId) {
             case "login.ftl":
-                // You login page specific stylesheet.
+                // A login page-specific stylesheet.
                 import("./pages/login.css");
                 classes = {
                     ...classes,
-                    // Your classes that applies only to the login page
+                    // Classes that apply only to the login page
                 };
                 break;
             case "register.ftl":
-                // Your account page specific stylesheet
+                // A register page-specific stylesheet.
                 import("./pages/register.css");
                 classes = {
                     ...classes,
-                    // Your classes that applies only to the register page
+                    // Classes that apply only to the register page
                 };
                 break;
             // ...
@@ -140,26 +139,23 @@ function useCustomStyles(kcContext: KcContext) {
 ```
 {% endcode %}
 
-If this code does not make much sense to you you can check out [this video tutorial](https://www.youtube.com/watch?v=Nkoz1iD-HOA) where this approach is demonstrated in practice.
+If this code doesn’t make much sense, you can watch [this video tutorial](https://www.youtube.com/watch?v=Nkoz1iD-HOA) where this approach is demonstrated in practice.
 
 </details>
 
 <details>
-
 <summary>Using Tailwind</summary>
 
-You'll be of course able to use Tailwind the regular way by applying the utility classes to the React/Angular/Svelte components.\
-However be aware that you can also use tailwind without having to modify the pages structures using the `@apply` dirrective. It's demonstrated in [this page](css-customization.md#using-tailwind).
-
+Of course, you can use Tailwind in the usual way by applying utility classes to the React/Angular/Svelte components.\
+But note that you can also use Tailwind without modifying the page structure by using the `@apply` directive. This is shown in [this page](css-customization.md#using-tailwind).
 </details>
 
 <details>
+<summary>Using Bootstrap or some other CSS framework</summary>
 
-<summary>Using Bootstrap or some other CSS framwork</summary>
-
-If you wish to use bootstrap or some other CSS framwork that provide standardized CSS classes you might wonder how to apply thoses classes.\
+If you want to use Bootstrap or another CSS framework that provides standardized classes, you might wonder how to apply these classes.\
 \
-Here is an example with Bootstrap:
+Here’s an example with Bootstrap:
 
 ```bash
 yarn add bootstrap
@@ -210,15 +206,15 @@ const classes = {
 </strong>} satisfies { [key in ClassKey]?: string };
 </code></pre>
 
-By writing that you've effectively replaced the Patterfly classes `pf-c-form__label pf-c-form__label-text` by the bootstrap classes `form-label col-form-label`.
+By doing this, you replace the Patternfly classes `pf-c-form__label pf-c-form__label-text` with the Bootstrap classes `form-label col-form-label`.
 
-dWhat will happen in practice, if you inspect the lement in your browser is that the form label that was previously rendered as:
+In practice, if you inspect the element in your browser, the form label that was previously rendered as:
 
 ```html
 <label for="username" class="kcLabelClass pf-c-form__label pf-c-form__label-text">
 ```
 
-Will is now rendered as
+Is now rendered as:
 
 ```html
 <label for="username" class="kcLabelClass form-label col-form-label">
@@ -228,26 +224,26 @@ Will is now rendered as
 
 ## Removing Some of the Default Styles
 
-Let's consider the "Sign In" button of the login page:
+Let’s consider the **Sign In** button on the login page:
 
-<figure><img src=".gitbook/assets/image (21).png" alt="" width="375"><figcaption><p>The default look of the "Sign In" button </p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (21).png" alt="" width="375"><figcaption><p>The default look of the "Sign In" button</p></figcaption></figure>
 
-Let's see how we can unstyle it so that we can apply our custom styles without having to wory about our CSS conflicting with the default Patternlyfly styles.
+Here’s how we can “unstyle” it so that we can apply custom styles without worrying about conflicts from the default Patternfly styles:
 
-<figure><img src=".gitbook/assets/image (22).png" alt="" width="375"><figcaption><p>How the "Sign in" button looks with all the Patterfly styles removed</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (22).png" alt="" width="375"><figcaption><p>How the "Sign In" button looks when all Patternfly styles are removed</p></figcaption></figure>
 
-To remove the Patternfly styles we must first inspect the element in our browser:
+To remove the Patternfly styles, inspect the button in your browser:
 
-<figure><img src=".gitbook/assets/image (24).png" alt=""><figcaption><p>Inspecting the CSS classes apllied to the "Sign In" button</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (24).png" alt=""><figcaption><p>Inspecting the CSS classes applied to the "Sign In" button</p></figcaption></figure>
 
-Doing that we can see what Patterfly classes are applied by default to the standardized element:
+We can see which Patternfly classes are applied by default to the standardized element:
 
-* `kcButtonClass`                     get assigned    `pf-c-button`
-* `kcButtonPrimaryClass`    get assigned    `pf-m-primary` and `long-pf-btn`
-* `kcButtonBlockClass`         get assigned    `pf-m-block`
-* `kcButtonLargeClass`         get assigned    `btn-lg`
+* `kcButtonClass` -> `pf-c-button`
+* `kcButtonPrimaryClass` -> `pf-m-primary` and `long-pf-btn`
+* `kcButtonBlockClass` -> `pf-m-block`
+* `kcButtonLargeClass` -> `btn-lg`
 
-Since we want to remove all the default styles we can instruct Keycloakify to remove all the classes that gets assigned by default to thoses kc classes:
+Since we want to remove all the default styles, we can tell Keycloakify to remove all classes assigned by default to these `kc` classes:
 
 <pre class="language-tsx" data-title="src/login/KcPage.tsx"><code class="lang-tsx">// ...
 
@@ -259,17 +255,16 @@ const classes = {
 </strong>} satisfies { [key in ClassKey]?: string };
 </code></pre>
 
-After saving this changes this is what we get:
+After saving these changes, here’s the result:
 
-<figure><img src=".gitbook/assets/image (25).png" alt=""><figcaption><p>All Patternfly classes have been stripped out, resulting in the button being restored to it's default HTML style.</p></figcaption></figure>
+<figure><img src=".gitbook/assets/image (25).png" alt=""><figcaption><p>All Patternfly classes have been stripped out, restoring the button to its default HTML style.</p></figcaption></figure>
 
-Now we can freely apply some custom styles to our button without having Patternfly interfering.
+Now you can freely apply your own custom button styles without Patternfly interfering.
 
 <figure><img src=".gitbook/assets/custom-button.gif" alt="" width="375"><figcaption><p>Button with custom style</p></figcaption></figure>
 
 <details>
-
-<summary>Reveal custom CSS code of this custom button</summary>
+<summary>Reveal custom CSS code for this custom button</summary>
 
 {% code title="src/login/main.css" %}
 ```css
@@ -309,11 +304,11 @@ Now we can freely apply some custom styles to our button without having Patternf
 
 ## Remove All the Default Styles
 
-Maybe you'd prefer to remove all the Patterfly style alltogether and start fresh.
+You may prefer to remove all Patternfly styles altogether and start fresh.
 
 <figure><img src=".gitbook/assets/image (63).png" alt="" width="375"><figcaption><p>The login page completely unstyled (doUseDefaultCss set to false).</p></figcaption></figure>
 
-What's nice with this approach is that not only will all the pf classes been stripped out all at once but also the global Patterfly stylesheet won't even be loaded.
+A benefit of this approach is that not only are all `pf-` classes stripped out in one go, but the global Patternfly stylesheet isn’t even loaded.
 
 {% tabs %}
 {% tab title="React" %}
@@ -343,8 +338,6 @@ What's nice with this approach is that not only will all the pf classes been str
     >&#x3C;/Page>
 {/await}
 </code></pre>
-
-
 {% endtab %}
 
 {% tab title="Angular" %}
@@ -365,19 +358,16 @@ export async function getKcPage(pageId: KcContext['pageId']): Promise&#x3C;KcPag
       };
   }
 }
-
 </code></pre>
-
-
 {% endtab %}
 {% endtabs %}
 
-### Disabeling the default styles only on some page.
+### Disabling the default styles only on some pages
 
-A common scenario is to use npx keycloakify eject-page to eject some pages of the login UI to customize them in depth. &#x20;
+A common scenario is using `npx keycloakify eject-page` to customize only certain pages of the login UI in depth.&#x20;
 
-On the page that you have ejected, you're likely to want to disable all the default styles, however you might want to keep the Patterfly styles on the pages that you haven't redesigned.\
-Here is an example where the login.ftl page have been ejected, disable the default styles for it while keeping them for the other pages:
+For pages you've ejected, you’ll likely want to disable all default styles; however, you might prefer to keep the Patternfly styles on the pages you haven't redesigned.\
+Below is an example where `login.ftl` has been ejected and its default styles are disabled, while the other pages remain styled:
 
 {% tabs %}
 {% tab title="React" %}
@@ -404,8 +394,6 @@ Here is an example where the login.ftl page have been ejected, disable the defau
         );
 }
 </code></pre>
-
-
 {% endtab %}
 
 {% tab title="Angular" %}
@@ -438,7 +426,7 @@ Here is an example where the login.ftl page have been ejected, disable the defau
 <strong>  const doUseDefaultCss = (()=>{
 </strong><strong>    switch(kcContext.pageId){
 </strong><strong>      case "login.ftl": return false;
-</strong><strong>      return true;
+</strong><strong>      default: return true;
 </strong><strong>    }
 </strong><strong>  })();
 </strong>  
@@ -463,14 +451,13 @@ Here is an example where the login.ftl page have been ejected, disable the defau
 </strong>      {doMakeUserConfirmPassword}
     >&#x3C;/Page>
 {/await}
-
 </code></pre>
 {% endtab %}
 {% endtabs %}
 
-### Removing the classes in the ejected components (kcClsx)
+### Removing the classes in ejected components (kcClsx)
 
-If you have ejected some pages with [`npx keycloakify eject-page`](common-use-case-examples/using-a-component-library.md) and disabled the defaut styles with `doUseDefaultCss` set to `false` you might wonder if you need to keep the `kcClsx` in the pages, for example:
+If you have ejected some pages with [`npx keycloakify eject-page`](common-use-case-examples/using-a-component-library.md) and disabled the default styles by setting `doUseDefaultCss` to `false`, you might wonder if you need to keep the `kcClsx` in the pages. For example:
 
 <pre class="language-tsx" data-title="src/login/pages/Login.tsx"><code class="lang-tsx">&#x3C;input
     tabIndex={7}
@@ -488,8 +475,8 @@ If you have ejected some pages with [`npx keycloakify eject-page`](common-use-ca
 />
 </code></pre>
 
-The answer is no, feel free to remove them! &#x20;
+The short answer is no; feel free to remove them.&#x20;
 
-Just be aware that if you have defined some custom CSS that use the kc classes as selector ( Like for example `.kcButtonClass { /* ... */ }` ) they will no longer be applied.
+Just be aware that if you have defined any custom CSS targeting those classes (for example `.kcButtonClass { /* ... */ }`), they will no longer apply once you remove the classes.
 
-[^1]: If you are using Angular or Svelte you lilely plan to customize the page at the component level so this isn't relevent to you.
+[^1]: If you’re using Angular or Svelte, you likely plan on customizing pages at the component level, so this may not be relevant to you.
