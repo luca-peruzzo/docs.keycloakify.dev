@@ -8,9 +8,9 @@ This section explains how to load and enable your theme in your production Keycl
 
 {% hint style="warning" %}
 **Warning:**\
-If your goal is to test your theme in a Keycloak instance, this is NOT the correct section of the documentation.\
+If your goal is to test your theme in a Keycloak docker container for development purpose, this is NOT the correct section of the documentation.\
 Refer to the [Testing Your Theme in a Keycloak Docker Container](testing-your-theme/inside-of-keycloak.md) section for detailed instructions.\
-This section is intended for deploying your theme to a production Keycloak instance, which involves a completely different process.
+This section is intended for deploying your theme to a **production** Keycloak instance, which involves a completely different process.
 {% endhint %}
 
 ## Building the JAR File
@@ -196,14 +196,14 @@ Read [this section of the starter project readme](https://github.com/keycloakify
 What you need to know is that your keycloak-theme.jar should be placed in the provider directory of your Keycloak (e.g: `/opt/keycloak/providers)`\
 After that you should run bin/kc.sh build (e.g: `sh /opt/keycloak/bin/kc.sh build`)
 
-Then you can start your Keycloak server, your theme should be available in it!
+Then you can start your Keycloak server, your theme should be available in it.
 {% endtab %}
 
 {% tab title="Docker - Custom Image" %}
 Another common approach is to build a custom Docker image of Keycloak that extends the official Keycloak image and includes your theme. &#x20;
 
 {% hint style="warning" %}
-This approach is `not recommended`, as it requires rebuilding the Docker image every time you update your theme.
+This approach is **not recommended**, as it requires rebuilding the Docker image every time you update your theme.
 {% endhint %}
 
 However, if you still prefer this approach, here’s an example of what your Dockerfile might look like:
