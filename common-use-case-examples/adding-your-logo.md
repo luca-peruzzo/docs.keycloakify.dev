@@ -19,17 +19,76 @@ npx keycloakify eject-page # Select login -> Template.tsx
 
 <figure><img src="../.gitbook/assets/image (68).png" alt=""><figcaption></figcaption></figure>
 
-This will create a src/login/Template.tsx file in your project.
+This will create a **src/login/Template.tsx** file in your project.
 
-## Import from the public directory
+Let's use this placeholder for the demo: [logo.png](https://github.com/keycloakify/keycloakify/releases/download/v0.0.1/logo.png) and save it in **src/login/assets/logo.png**.
 
-Let's use this placeholder for the demo: [logo.png](https://github.com/keycloakify/keycloakify/releases/download/v0.0.1/logo.png).
+Now we can use the asset in our component: &#x20;
 
-We put the file in public/img/logo.png
+{% tabs %}
+{% tab title="React" %}
+<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx"><strong>import logoPngUrl from "./assets/logo.png";
+</strong>// ...
+&#x3C;div className={kcClsx("kcLoginClass")}>
+    &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
+        &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
+<strong>            {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
+</strong><strong>            &#x3C;img src={logoPngUrl} width={500}/>
+</strong>        &#x3C;/div>
+    &#x3C;/div>
+    {/* ... */}
+</code></pre>
+{% endtab %}
 
-<div align="center" data-full-width="false"><figure><img src="../.gitbook/assets/image (69).png" alt="" width="563"><figcaption></figcaption></figure></div>
+{% tab title="Svelte" %}
+{% code title="src/login/Template.svelte" %}
+```html
+<script lang="ts">
+  import logoPngUrl from "./assets/logo.png";
+  // ...
+</script>
 
-Now let's edit the template to import the file:
+<div
+  id="kc-header-wrapper"
+  class={kcClsx('kcHeaderWrapperClass')}
+>
+  <!--{ msgStr('loginTitleHtml', realm.displayNameHtml) }-->
+  <img src={logoPngUrl} width={500} />
+</div>
+```
+{% endcode %}
+{% endtab %}
+
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/template/template.component.ts"><code class="lang-typescript"><strong>import logoPngUrl from '../assets/logo.png';
+</strong>
+export class TemplateComponent extends ComponentReference {
+<strong>  logoPngUrl = logoPngUrl;
+</strong>  // ...
+</code></pre>
+
+<pre class="language-html" data-title="src/login/template/template.component.html"><code class="lang-html">&#x3C;img
+<strong>  [src]="logoPngUrl"
+</strong>  alt="logo"
+  width="500"
+/>
+</code></pre>
+{% endtab %}
+{% endtabs %}
+
+Result:&#x20;
+
+<figure><img src="../.gitbook/assets/image (70).png" alt=""><figcaption></figcaption></figure>
+
+## Optional: Updating the logo without re-building the theme
+
+Some pepoles want to be able to "hot swipe" the asset in the Keycloak file system without having to re-build the theme and re-deploy it.
+
+To ensure that the assets are located in a predictible location you would use the public/ directory.
+
+Move the file to **public/logo.png**.
+
+Then make an absolute import from your component: &#x20;
 
 {% tabs %}
 {% tab title="React - Vite" %}
@@ -101,78 +160,9 @@ NOTE: You can see PUBLIC\_URL as an equivalent of `process.env.PUBLIC_URL` that 
 {% endtab %}
 {% endtabs %}
 
-You can see the result by running `npx keycloakify start-keycloak`
-
-<figure><img src="../.gitbook/assets/image (70).png" alt=""><figcaption></figcaption></figure>
-
-{% hint style="info" %}
 If you ever need to SSH into the Keycloak server and hot swipe the image you can find it at
 
 **/opt/keycloak/themes/**[**\<name of your theme>**](../features/compiler-options/themename.md)**/login/resources/dist/img/logo.png**
 
-<img src="../.gitbook/assets/image (71).png" alt="" data-size="original">
-{% endhint %}
+<figure><img src="../.gitbook/assets/image.png" alt=""><figcaption><p>Inspecting the Docker Keycloak docker image file system we can find the logo.png at the expected location.</p></figcaption></figure>
 
-## Letting the bundle handle your import
-
-Importing your asset from the public directory has the drawback that you won't get a compilation error if you made a mistake, like for example if you rename a file and forget to update the imports.\
-A nice solution for this is to let Vite or Webpack handle the import.
-
-Let's move our logo.png to **/src/login/assets/logo.png**
-
-<figure><img src="../.gitbook/assets/image (72).png" alt="" width="336"><figcaption></figcaption></figure>
-
-Now let's update the imports:
-
-{% tabs %}
-{% tab title="React" %}
-<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx"><strong>import logoPngUrl from "./assets/logo.png";
-</strong>// ...
-&#x3C;div className={kcClsx("kcLoginClass")}>
-    &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
-        &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-<strong>            {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
-</strong><strong>            &#x3C;img src={logoPngUrl} width={500}/>
-</strong>        &#x3C;/div>
-    &#x3C;/div>
-    {/* ... */}
-</code></pre>
-{% endtab %}
-
-{% tab title="Svelte" %}
-{% code title="src/login/Template.svelte" %}
-```html
-<script lang="ts">
-  import logoPngUrl from "./assets/logo.png";
-  // ...
-</script>
-
-<div
-  id="kc-header-wrapper"
-  class={kcClsx('kcHeaderWrapperClass')}
->
-  <!--{ msgStr('loginTitleHtml', realm.displayNameHtml) }-->
-  <img src={logoPngUrl} width={500} />
-</div>
-```
-{% endcode %}
-{% endtab %}
-
-{% tab title="Angular" %}
-<pre class="language-typescript" data-title="src/login/template/template.component.ts"><code class="lang-typescript"><strong>import logoPngUrl from '../assets/logo.png';
-</strong>
-export class TemplateComponent extends ComponentReference {
-<strong>  logoPngUrl = logoPngUrl;
-</strong>  // ...
-</code></pre>
-
-<pre class="language-html" data-title="src/login/template/template.component.html"><code class="lang-html">&#x3C;img
-<strong>  [src]="logoPngUrl"
-</strong>  alt="logo"
-  width="500"
-/>
-</code></pre>
-{% endtab %}
-{% endtabs %}
-
-This will yield the same result except that now if you delete, move or rename the logo.png file you'll get a compilation error letting you know that you must also update your **Template.tsx** file.

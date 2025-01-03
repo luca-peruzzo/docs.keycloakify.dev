@@ -6,13 +6,13 @@ Let's see firs how you can overwrite the default translation messages to best fi
 
 See, for example, by default the login page shows "Sign in to your account":
 
-<figure><img src="../../.gitbook/assets/image.png" alt="" width="375"><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1).png" alt="" width="375"><figcaption></figcaption></figure>
 
 Let's say we want to change that with a message more specific to you usecase.
 
 First setp is to identify the message key. You can usually found it just by inspecting the HTML of your page:
 
-<figure><img src="../../.gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 Here we can see that the _"Sign in to your account"_ translation message corespond to the message key **loginAccountTitle**.
 
