@@ -1,62 +1,13 @@
 ---
 icon: file-png
+description: Practical example of how to import custom assets in ejected components.
 ---
 
 # Adding your Logo
 
-{% tabs %}
-{% tab title="Vite" %}
 {% hint style="info" %}
-TLDR: There is nothing specific to Keycloakify about importing assets. You can do it however you would in any other project.
-
-Just if you're referencing assets that are in the public directory, use `import.meta.env.BASE_URL`
+NOTE: You can very well change the logo using only CSS without having to ejecting the template. There's a demo in [this video](https://youtu.be/Nkoz1iD-HOA?si=6DLF7iAPTeX-pkNP). &#x20;
 {% endhint %}
-{% endtab %}
-
-{% tab title="Webpack" %}
-{% hint style="info" %}
-TLDR:  You can import asset like you would in any other project, one exception being: If you reference assets that are located in your public directory from within your TSX files you must use Keycloakify's polifill of the `PUBLIC_URL` environnement variable, you can't use `process.env.PUBLIC_URL` directly:
-
-```tsx
-import { PUBLIC_URL } from "keycloakify/PUBLIC_URL";
-<img src={`${PUBLIC_URL}/my-image.png`} />
-```
-{% endhint %}
-{% endtab %}
-
-{% tab title="Angular - Webpack" %}
-{% hint style="info" %}
-TLDR:  If you reference assets that are located in your public directory from within your component you must inject APP\_BASE\_HREF\
-\
-Make sure to have it  configured as a provider (default in the starter project)
-{% endhint %}
-
-{% code title="app.config.ts" %}
-```typescript
-import { PUBLIC_URL } from "keycloakify/PUBLIC_URL";
-
-{
-    provide: APP_BASE_HREF,
-    useFactory: () => {
-        return PUBLIC_URL.endsWith('/') ? PUBLIC_URL : `${PUBLIC_URL}/`;
-    }
-}
-```
-{% endcode %}
-
-{% code title="template.component.ts" %}
-```typescript
-baseHref = inject(APP_BASE_HREF);
-```
-{% endcode %}
-
-{% code title="template.component.html" %}
-```html
-<img src="{{ baseHref }}my-image.png"/>
-```
-{% endcode %}
-{% endtab %}
-{% endtabs %}
 
 Let's say you want to put the logo of your company on every pages of the theme.
 
@@ -81,47 +32,74 @@ We put the file in public/img/logo.png
 Now let's edit the template to import the file:
 
 {% tabs %}
-{% tab title="React" %}
-<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx">export default function Template(props: TemplateProps&#x3C;KcContext, I18n>) {
+{% tab title="React - Vite" %}
+It's important that you do not simply harcode `src="/img/logo.png"`, or keycloakify won't be able to patch the URL for Keycloak. Use Vite's builtin `import.meta.env.BASE_URL`.
 
-    return (
-        &#x3C;div className={kcClsx("kcLoginClass")}>
-            &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
-                &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-<strong>                    {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
-</strong><strong>                    &#x3C;img src={`${import.meta.env.BASE_URL}img/logo.png`} width={500}/>
-</strong>                &#x3C;/div>
-            &#x3C;/div>
-            {/* ... */}
+<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx">&#x3C;div className={kcClsx("kcLoginClass")}>
+    &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
+        &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
+<strong>            {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
+</strong><strong>            &#x3C;img src={`${import.meta.env.BASE_URL}img/logo.png`} width={500}/>
+</strong>        &#x3C;/div>
+    &#x3C;/div>
+    {/* ... */}
 </code></pre>
+
+Doing this is a good practice in any Vite project (not specially Keycloakify) since it ensure the correctness of your URLs even if you customize the "base" parameter in the your vite.config.ts. Writing "/img/logo.png" only works when base is "/" (which is the default)
 {% endtab %}
 
-{% tab title="Angular" %}
-In Angular Vite you can just use it as described with React.
+{% tab title="Svelte" %}
+It's important that you do not simply harcode `src="/img/logo.png"`, or keycloakify won't be able to patch the URL for Keycloak. Use Vite's builtin `import.meta.env.BASE_URL`.
 
-In Angular with Webpack you need to use the APP\_BASE\_HREF as a provider. First you need to declare the value in your component:
-
-{% code title="template.component.ts" %}
-```typescript
-baseHref = inject(APP_BASE_HREF);
-```
-{% endcode %}
-
-{% code title="template.component.html" %}
+{% code title="src/login/Template.svelte" %}
 ```html
-<div [kcClass]="'kcLoginClass'">
-    <div id="kc-header" [kcClass]="'kcHeaderClass'">
-        <div id="kc-header-wrapper" [kcClass]="'kcHeaderWrapperClass'">
-          <!--<div [innerHTML]="realm?.displayNameHtml ?? '' | kcSanitize: 'html'"></div>-->
-          <img src="{{ baseHref }}img/logo.png" width="500"/>
-    </div>
+<div
+  id="kc-header-wrapper"
+  class={kcClsx('kcHeaderWrapperClass')}
+>
+  <!--{ msgStr('loginTitleHtml', realm.displayNameHtml) }-->
+  <img src={`${import.meta.env.BASE_URL}img/logo.png`} width={500} />
 </div>
 ```
 {% endcode %}
+
+Doing this is a good practice in any Vite project (not specially Keycloakify) since it ensure the correctness of your URLs even if you customize the "base" parameter in the your vite.config.ts. Writing "/img/logo.png" only works when base is "/" (which is the default)
+{% endtab %}
+
+{% tab title="Angular - Vite" %}
+<pre class="language-typescript" data-title="src/login/template/template.component.ts"><code class="lang-typescript">export class TemplateComponent extends ComponentReference {
+<strong>  BASE_URL = import.meta.env.BASE_URL;
+</strong></code></pre>
+
+{% code title="src/login/template/template.component.html" %}
+```html
+<img
+  [src]="BASE_URL + 'img/logo.png'"
+  alt="logo"
+  width="500"
+/>
+```
+{% endcode %}
+{% endtab %}
+
+{% tab title="React - Webpack/CRA" %}
+It's important that you do not simply harcode `src="/img/logo.png"`, or keycloakify won't be able to patch the URL for Keycloak. Use `PUBLIC_URL` instead.
+
+<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx">import { PUBLIC_URL } from "keycloakify/PUBLIC_URL";
+
+&#x3C;div className={kcClsx("kcLoginClass")}>
+    &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
+        &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
+<strong>            {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
+</strong><strong>            &#x3C;img src={`${PUBLIC_URL}/img/logo.png`} width={500}/>
+</strong>        &#x3C;/div>
+    &#x3C;/div>
+    {/* ... */}
+</code></pre>
+
+NOTE: You can see PUBLIC\_URL as an equivalent of `process.env.PUBLIC_URL` that will work inside and outside of Keycloak.
 {% endtab %}
 {% endtabs %}
-
-
 
 You can see the result by running `npx keycloakify start-keycloak`
 
@@ -146,19 +124,55 @@ Let's move our logo.png to **/src/login/assets/logo.png**
 
 Now let's update the imports:
 
-<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx">import logoPngUrl from "./assets/logo.png";
-
-export default function Template(props: TemplateProps&#x3C;KcContext, I18n>) {
-
-    return (
-        &#x3C;div className={kcClsx("kcLoginClass")}>
-            &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
-                &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
-<strong>                    {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
-</strong><strong>                    &#x3C;img src={logoPngUrl} width={500}/>
-</strong>                &#x3C;/div>
-            &#x3C;/div>
-            {/* ... */}
+{% tabs %}
+{% tab title="React" %}
+<pre class="language-tsx" data-title="src/login/Template.tsx"><code class="lang-tsx"><strong>import logoPngUrl from "./assets/logo.png";
+</strong>// ...
+&#x3C;div className={kcClsx("kcLoginClass")}>
+    &#x3C;div id="kc-header" className={kcClsx("kcHeaderClass")}>
+        &#x3C;div id="kc-header-wrapper" className={kcClsx("kcHeaderWrapperClass")}>
+<strong>            {/*{msg("loginTitleHtml", realm.displayNameHtml)}*/}
+</strong><strong>            &#x3C;img src={logoPngUrl} width={500}/>
+</strong>        &#x3C;/div>
+    &#x3C;/div>
+    {/* ... */}
 </code></pre>
+{% endtab %}
+
+{% tab title="Svelte" %}
+{% code title="src/login/Template.svelte" %}
+```html
+<script lang="ts">
+  import logoPngUrl from "./assets/logo.png";
+  // ...
+</script>
+
+<div
+  id="kc-header-wrapper"
+  class={kcClsx('kcHeaderWrapperClass')}
+>
+  <!--{ msgStr('loginTitleHtml', realm.displayNameHtml) }-->
+  <img src={logoPngUrl} width={500} />
+</div>
+```
+{% endcode %}
+{% endtab %}
+
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/template/template.component.ts"><code class="lang-typescript"><strong>import logoPngUrl from '../assets/logo.png';
+</strong>
+export class TemplateComponent extends ComponentReference {
+<strong>  logoPngUrl = logoPngUrl;
+</strong>  // ...
+</code></pre>
+
+<pre class="language-html" data-title="src/login/template/template.component.html"><code class="lang-html">&#x3C;img
+<strong>  [src]="logoPngUrl"
+</strong>  alt="logo"
+  width="500"
+/>
+</code></pre>
+{% endtab %}
+{% endtabs %}
 
 This will yield the same result except that now if you delete, move or rename the logo.png file you'll get a compilation error letting you know that you must also update your **Template.tsx** file.
