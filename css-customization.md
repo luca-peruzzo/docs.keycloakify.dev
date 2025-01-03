@@ -164,7 +164,7 @@ But note that you can also use Tailwind without modifying the page structure by 
 
 <details>
 
-<summary>Using Bootstrap or some other CSS framework</summary>
+<summary>Using <a href="https://getbootstrap.com/">Bootstrap</a> or some other CSS framework</summary>
 
 If you want to use Bootstrap or another CSS framework that provides standardized classes, you might wonder how to apply these classes.\
 \
