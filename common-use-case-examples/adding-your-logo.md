@@ -33,6 +33,8 @@ Make sure to have it  configured as a provider (default in the starter project)
 
 {% code title="app.config.ts" %}
 ```typescript
+import { PUBLIC_URL } from "keycloakify/PUBLIC_URL";
+
 {
     provide: APP_BASE_HREF,
     useFactory: () => {
