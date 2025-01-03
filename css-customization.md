@@ -53,6 +53,13 @@ To apply your custom CSS style, use the `kc` classes to target the components.
   ...
 </code></pre>
 {% endtab %}
+
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/KcPage.ts"><code class="lang-typescript"><strong>import "./main.css";
+</strong>import { getDefaultPageComponent, type KcPage } from '@keycloakify/angular/login';
+// ...
+</code></pre>
+{% endtab %}
 {% endtabs %}
 
 This is the result:
@@ -251,6 +258,8 @@ We can see which Patternfly classes are applied by default to the standardized e
 
 Since we want to remove all the default styles, we can tell Keycloakify to remove all classes assigned by default to these `kc` classes:
 
+{% tabs %}
+{% tab title="React" %}
 <pre class="language-tsx" data-title="src/login/KcPage.tsx"><code class="lang-tsx">// ...
 
 const classes = {
@@ -260,6 +269,33 @@ const classes = {
 </strong><strong>    kcButtonLargeClass: ""
 </strong>} satisfies { [key in ClassKey]?: string };
 </code></pre>
+{% endtab %}
+
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/KcPage.ts"><code class="lang-typescript">const classes = {
+<strong>    kcButtonClass: "",
+</strong><strong>    kcButtonPrimaryClass: "",
+</strong><strong>    kcButtonBlockClass: "",
+</strong><strong>    kcButtonLargeClass: ""
+</strong>} satisfies { [key in ClassKey]?: string };
+</code></pre>
+{% endtab %}
+
+{% tab title="Svelte" %}
+<pre class="language-html" data-title="src/login/KcPage.svelte"><code class="lang-html">&#x3C;script lang="ts">
+// ...
+
+const classes = {
+<strong>    kcButtonClass: "",
+</strong><strong>    kcButtonPrimaryClass: "",
+</strong><strong>    kcButtonBlockClass: "",
+</strong><strong>    kcButtonLargeClass: ""
+</strong>} satisfies { [key in ClassKey]?: string };
+</code></pre>
+{% endtab %}
+{% endtabs %}
+
+
 
 After saving these changes, here’s the result:
 

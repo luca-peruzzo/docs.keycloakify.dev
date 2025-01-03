@@ -10,56 +10,35 @@ Let's see, as an example, the different ways you have to change the backgrounds 
 There is the equivalent of this guide using CSS-in-JS [here](changing-the-background-image-css-in-js.md).
 {% endhint %}
 
-First let's [download a background image](https://coolbackgrounds.io/) an put it in our public directory:
+First let's [download a background image](https://coolbackgrounds.io/) an put it in **src/login/assets/background.png**.
 
-<figure><img src="../.gitbook/assets/image (123).png" alt=""><figcaption></figcaption></figure>
+Then let's apply it as background:
 
-{% hint style="info" %}
-If you wish to do so, you can hot swipe assets that you have placed into your public directory in your Keycloak instance files at:
-
-**/opt/keycloak/themes/**[**\<name of your theme>**](../features/compiler-options/themename.md)**/\<login|account>/resources/dist**
-
-<img src="../.gitbook/assets/image (126).png" alt="" data-size="original">
-{% endhint %}
-
-Let's apply this image to the body using plain CSS
-
-{% tabs %}
-{% tab title="React" %}
 {% code title="src/login/main.css" %}
 ```css
 body.kcBodyClass {
-  background: url(/background.png) no-repeat center center fixed;
+  background: url(./assets/background.png) no-repeat center center fixed;
 }
 ```
 {% endcode %}
-{% endtab %}
-
-{% tab title="Angular" %}
-{% code title="src/styles.css" %}
-```css
-body.kcBodyClass {
-  background: url(/background.png) no-repeat center center fixed;
-}
-```
-{% endcode %}
-{% endtab %}
-{% endtabs %}
 
 We import the StyleSheet:
 
 {% tabs %}
 {% tab title="React" %}
-{% code title="src/login/KcPage.tsx" %}
-```tsx
-import "./main.css";
-import { Suspense, lazy } from "react";
-// ...
-```
-{% endcode %}
+<pre class="language-tsx" data-title="src/login/KcPage.tsx"><code class="lang-tsx"><strong>import "./main.css";
+</strong>// ...
+</code></pre>
 {% endtab %}
 
-{% tab title="Angular" %}
+{% tab title="Svelte" %}
+<pre class="language-html" data-title="src/login/KcPage.svelte"><code class="lang-html">&#x3C;script lang="ts">
+<strong>  import "./main.css";
+</strong>  ...
+</code></pre>
+{% endtab %}
+
+{% tab title="Angular - Webpack" %}
 {% code title="angular.json" %}
 ```json
 "build": {
@@ -72,22 +51,38 @@ import { Suspense, lazy } from "react";
 {% endtab %}
 {% endtabs %}
 
-
-
-Result (see [testing your theme](../testing-your-theme/)):
+Result:
 
 <figure><img src="../.gitbook/assets/image (124).png" alt=""><figcaption><p>Custom background successfully applied</p></figcaption></figure>
 
-If you prefer, you can also move the background.png image from `public/` to, for examples, `src/login/assets/background.png` and reference the image with a path relative to the CSS file, in this case it would be:
+<details>
+
+<summary>Replacing the image without re-building the theme</summary>
+
+If you want to be able to "hot swipe" the image, without rebuilding the theme you have to import the image from a different location. &#x20;
+
+Place the file into **/public/background.png**.
+
+Then, in your CSS code import the image with an absolute path:
 
 {% code title="src/login/main.css" %}
 ```css
 body.kcBodyClass {
-  background: url(./assets/background.png) no-repeat center center fixed;
+  background: url(/background.png) no-repeat center center fixed;
 }
 ```
 {% endcode %}
 
-In the following video I show how to load different background for different page and how to create [theme variant](../features/theme-variants.md).
+Now if you want to replace the image directly in Keycloak you'll be able to find it at:
+
+**/opt/keycloak/themes/**[**\<name of your theme>**](../features/compiler-options/themename.md)**/login/resources/dist/background.png**
+
+<img src="../.gitbook/assets/image (126).png" alt="" data-size="original">
+
+
+
+</details>
+
+For a more advanced example, in the following video I show how to load different background for different page and how to create [theme variant](../features/theme-variants.md).
 
 {% embed url="https://youtu.be/Nkoz1iD-HOA?si=hBXt8rw72-Pvhhnr" %}
