@@ -13,7 +13,7 @@ Here are the types of themes that exist:
 
 Most of this documentation focuses on the Login Theme.
 
-If you choose to implement a **Multi-Page Account Theme**, note that it works exactly like the Login Theme. Everything covered here still applies.
+If you choose to implement a **Multi-Page Account Theme**, note that it works exactly like the Login Theme.
 
 Here are the features that apply to all theme types:
 
