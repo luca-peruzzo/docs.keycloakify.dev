@@ -1,25 +1,26 @@
 ---
-description: Customize the default email template
 icon: envelope
 ---
 
 # Email Theme
 
-_Introduced in_ [_v4.8.0_](https://github.com/InseeFrLab/keycloakify/releases/tag/v4.8.0)
+There are two ways you can create a Keycloak Email theme with Keycloakify
+
+## Using the keycloakify-emails plugin
 
 {% hint style="warning" %}
-Currently, customizing emails with React is not possible, and you must use FreeMarker instead. If this poses a significant obstacle for you, please [open a new issue](https://github.com/keycloakify/keycloakify/issues/new) to discuss it further.
+This approach only works in React/Vite project. So not with Angular or Svelte and not with Webpack (Create-React-App)
 {% endhint %}
 
-It is possible to customize the emails sent to your users to confirm their email address ect.\
-Just run npx keycloakify `npx keycloakify initialize-email-theme`.
+keycloakify-email is a Keycloakify plugin that enable to create an email theme using [jsx-email](https://jsx.email/). &#x20;
 
-You will be prompted to select the Keycloak version you want to initialize your theme with. I recomend selecting the more resent one, even if you are currently deploying on an older Keycloak version. Everything should work. &#x20;
+This plugin will evenutally be integrated to Keycloakify core but as for now it has to be setup separately.
 
-You can remove all the template and resource file you aren't going to customize (it will fallback to the default email theme as long as you keep a `theme.properties` with `parent=base`).\
-When `npx keycloakify` (`yarn keycloak`) is run it will bundle your email theme into your `.jar` file and you will be able to select it in the Keycloak administration pages.
+{% embed url="https://github.com/timofei-iatsenko/keycloakify-emails" %}
 
-![Selecting your email theme in the Keycloak admin](../.gitbook/assets/email.png)
+## Using FreeMarker
+
+Under construction
 
 
 
