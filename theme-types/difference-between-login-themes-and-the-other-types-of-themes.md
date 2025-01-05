@@ -21,9 +21,9 @@ Here are the features that apply to all theme types:
 * ✅ [Theme Variants](../features/theme-variants.md)
 * ✅ [Environment Variables](../features/compiler-options/environmentvariables.md)
 
-Below are features that apply **only** to the Login Theme **and** the Multi-Page Account Theme (and **not** to the other theme types):
+Below are the documentation pages that apply **only** to the Login Theme **and** the Multi-Page Account Theme but are handled differently in the other types of themes: &#x20;
 
-* ❌ [Testing your theme outside of Keycloak](../testing-your-theme/outside-of-keycloak.md) (using `npx keycloakify add-story`)
+* ❌ [Testing your theme outside of Keycloak](../testing-your-theme/outside-of-keycloak.md) (using `npx keycloakify add-story` and Storybook)
 * ❌ [`npx keycloakify eject-page`](../common-use-case-examples/using-a-component-library.md)
 * ❌ [Internationalization](../features/i18n/) — the other theme types handle translations differently.
 
