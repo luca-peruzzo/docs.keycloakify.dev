@@ -35,7 +35,7 @@
 * [Theme Variants](features/theme-variants.md)
 * [Environment Variables](features/environment-variables.md)
 * [Styling a Custom Page Not Included in Base Keycloak](features/styling-a-custom-page-not-included-in-base-keycloak.md)
-* [Integrating an Existing Theme into Your Keycloakify Project](features/importing-an-existing-theme-into-your-keycloakify-project.md)
+* [Integrating an Existing Theme into Your Keycloakify Project](features/integrating-an-existing-theme-into-your-keycloakify-project.md)
 * [Compiler Options](features/compiler-options/README.md)
   * [--project](features/compiler-options/project.md)
   * [keycloakVersionTargets](features/compiler-options/keycloakversiontargets.md)
