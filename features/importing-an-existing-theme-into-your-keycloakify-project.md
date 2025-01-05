@@ -2,21 +2,24 @@
 icon: arrow-up-to-line
 ---
 
-# Importing an Existing Theme Into Your Keycloakify project
+If you have already created a Keycloak theme using the native theming system, you can easily import it into your Keycloakify project.
 
-If you already have created a Keycloak theme with the native theming system you can import it into your Keycloakify project. &#x20;
+This process is straightforward and requires no special configuration. Simply copy the source files of your existing theme and place them into the `src` directory of your Keycloakify project.
 
-Infact it's very easy, there's is no special configuration to know about, just copy the source of your existing theme and put it into your Keycloakify src directory.
+<figure>
+  <img src="../.gitbook/assets/image (202).png" alt="Native login theme in a Keycloakify project">
+  <figcaption>
+    <p>Screenshot showing a native login theme inside a Keycloakify project</p>
+  </figcaption>
+</figure>
 
-<figure><img src="../.gitbook/assets/image (202).png" alt=""><figcaption><p>Screenshot showing a native login theme inside a Keycloakify project</p></figcaption></figure>
+Below is a live demonstration using a login theme, but the same process applies to any type of theme.
 
-Following is a live demo using a login theme but it works the same with every type of theme.
+# Theme Variants Support
 
-## Theme Variants Support
+If your project includes theme variants, they will also work seamlessly with your imported native theme. 
 
-If you implement theme variants, it also applies to your native theme. &#x20;
-
-You can use a special FreeMarker variable in your .ftl file that will take the value of the select theme variant.
+You can leverage a special FreeMarker variable in your `.ftl` files to display the active theme variant dynamically:
 
 {% code title="src/login/login.ftl" %}
 ```ftl
@@ -24,11 +27,17 @@ You can use a special FreeMarker variable in your .ftl file that will take the v
 ```
 {% endcode %}
 
-You can also override the messages translation depending on what theme is enabled by creating property files with the following pattern:
+To customize translations based on the active theme variant, create property files with the following naming pattern:
 
 ```
 messages/messages_<language>_override_<theme name>.properties
 ```
 
-<figure><img src="../.gitbook/assets/image (203).png" alt=""><figcaption><p>A project where there is two theme variant defined: "vanilla" and "chocoloate" and where the loginAccountTitle message key have been overwriten for each of them.</p></figcaption></figure>
+For example, if you have theme variants named `vanilla` and `chocolate`, you can override the `loginAccountTitle` message key for each variant. Here's an example project structure:
 
+<figure>
+  <img src="../.gitbook/assets/image (203).png" alt="Theme variants: vanilla and chocolate">
+  <figcaption>
+    <p>A project with two theme variants, "vanilla" and "chocolate," where the <code>loginAccountTitle</code> message key is overridden for each variant.</p>
+  </figcaption>
+</figure>
