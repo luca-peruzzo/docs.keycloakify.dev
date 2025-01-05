@@ -16,36 +16,53 @@ One of Keycloakify’s strengths is its ability to let you reuse components and 
 
 Let's assume you have a monorepo project where sub applications are stored in the **projects/** directory.
 
-Next up you want to repatriate the Keycloakify Starter template sources.\
-Only copy over the src and .storybook directory.
+Next up you want to repatriate the Keycloakify Starter template sources.
 
 ```bash
 cd my-workspace
-git clone https://github.com/keycloakify/keycloakify-starter-angular tmp
+yarn ng generate application keycloak-theme
+rm -rf projects/keycloak-theme/public
+rm -rf projects/keycloak-theme/src
+git clone https://github.com/keycloakify/keycloakify-starter-angular-vite tmp
 mv tmp/src projects/keycloak-theme
-mv tmp/extra-webpack.config.js tmp/index-html-transform.js
+mv tmp/public projects/keycloak-theme
+mv tmp/vite.config.ts projects/keycloak-theme
+mv tmp/index.html projects/keycloak-theme
 rm -rf tmp
 ```
 
-#### Adjust the `extra-webpack.config.js` File
+#### Adjust the `vite.config.ts` File
 
-Edit the highlighted path in `extra-webpack.config.js` file to match the following configuration:
+Edit the highlighted path in `vite.config.ts` file to match the following configuration:
 
-<pre class="language-javascript" data-title="extra-webpack.config.js"><code class="lang-javascript">import path from 'node:path';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+<pre class="language-javascript" data-title="vite.config.ts"><code class="lang-javascript">/// <reference types="vitest" />
 
-export default {
-  entry: './projects/keycloakify-theme/src/main.ts',
-  output: {
-<strong>    path: path.resolve(import.meta.dirname, '../../dist/keycloakify-theme/static/js/'),
-</strong>    publicPath: 'auto',
+import { defineConfig } from 'vite';
+import angular from '@analogjs/vite-plugin-angular';
+import { keycloakify } from 'keycloakify/vite-plugin';
+
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => ({
+  build: {
+    target: ['es2022'],
+  },
+  <strong>root: 'projects/keycloak-theme',</strong>
+  resolve: {
+    mainFields: ['module'],
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '../css/[name].[contenthash].css',
+    angular(),
+    keycloakify({
+      accountThemeImplementation: 'none',
+      <strong>themeName: 'keycloak-theme',
+      keycloakifyBuildDirPath: '../../dist/keycloak-theme'</strong>
     }),
   ],
-};
+  define: {
+    'import.meta.vitest': mode !== 'production',
+  },
+}));
+
 </code></pre>
 
 after this, your project structure should look like the following:
@@ -55,12 +72,13 @@ my-workspace/
 
 │
 ├── projects/
-│   └── keycloakify-theme/
+│   └── keycloak-theme/
 │       ├── src/
-│       ├── index-html-transform
-│       ├── extra-webpack.js
+│       ├── public/
+│       ├── index.html
 │       ├── tsconfig.app.json
-│       └── tsconfig.spec.json
+│       ├── tsconfig.spec.json
+│       └── vite.config.ts
 │
 ├── angular.json
 └── package.json
@@ -77,24 +95,32 @@ Ensure the following lines are present in your workspace's `package.json`:
 <strong>  "type": "module",
 </strong>  "scripts": {
     ...
-<strong>    "build-keycloak-theme": "ng build keycloakify-theme &#x26;&#x26; npx keycloakify build --project projects/keycloakify-theme",
+<strong>    "build-keycloak-theme": "ng build --project keycloak-theme &#x26;&#x26; npx keycloakify build --project projects/keycloak-theme",
 </strong>    ...
   },
-<strong>  "keycloakify": {
-</strong><strong>    "accountThemeImplementation": "none",
-</strong><strong>    "projectBuildDirPath": "dist/keycloakify-theme",
-</strong><strong>    "staticDirPathInProjectBuildDirPath": "static",
-</strong><strong>    "publicDirPath": "public"
-</strong><strong>  },
 </strong>  "dependencies": {
     ...
-<strong>    "keycloakify": "^11.3.18",
-</strong><strong>    "@keycloakify/angular": "0.1.4"
+<strong>    "@keycloakify/angular": "^0.2.14",
+    "keycloakify": "^11.8.1",
+    "marked": "^5.0.2",
+    "marked-gfm-heading-id": "^3.0.4",
+    "marked-highlight": "^2.0.1",
+    "marked-mangle": "^1.1.7",
+    "prismjs": "^1.29.0",
 </strong>    ...
   },
   "devDependencies": {
     ...
-<strong>    "@angular-builders/custom-webpack": "^18.0.0",
+<strong>    "@analogjs/platform": "^1.11.0",
+    "@analogjs/vite-plugin-angular": "^1.9.0",
+    "@analogjs/vitest-angular": "^1.9.0",
+    "@angular-devkit/architect": "^0.1900.6",
+    "@nx/angular": "^20.3.0",
+    "@nx/devkit": "^20.3.0",
+    "@nx/vite": "^20.3.0",
+    "vite": "^5.0.0",
+    "vite-tsconfig-paths": "^4.2.0",
+    "vitest": "^2.0.0"
 </strong>    ...
   }
 }
@@ -104,80 +130,72 @@ Ensure the following lines are present in your workspace's `package.json`:
 
 To integrate the **Keycloakify** project into your workspace, update the `angular.json` file by adding an entry to the `projects` section. Below is an example configuration. Important lines that may require customization based on your project’s requirements are highlighted:
 
-<pre class="language-json" data-title="angular.json"><code class="lang-json">"keycloakify-theme": {
-  "projectType": "application",
-  "schematics": {
-    "@schematics/angular:component": {
-      "changeDetection": "OnPush",
-      "style": "css",
-      "standalone": true
-    }
-  },
-<strong>  "root": "projects/keycloakify-theme",
-</strong><strong>  "sourceRoot": "projects/keycloakify-theme/src",
-</strong>  
-  "prefix": "kc",
-  "architect": {
-    "build": {
-        "builder": "@angular-builders/custom-webpack:browser",
-        "options": {
-          "inlineStyleLanguage": "scss",
-<strong>            "outputPath": "dist/keycloakify-theme",
-</strong><strong>            "index": "projects/keycloakify-theme/src/index.html",
-</strong><strong>            "main": "projects/keycloakify-theme/src/main.ts",
-</strong><strong>            "tsConfig": "projects/keycloakify-theme/tsconfig.app.json"
-</strong>        },
-
-        "configurations": {
-          "production": {
-              "optimization": true,
-<strong>              "indexTransform": "projects/keycloakify-theme/index-html-transform.js",
-</strong>              "sourceMap": false,
-              "customWebpackConfig": {
-<strong>                  "path": "projects/keycloakify-theme/extra-webpack.config.js",
-</strong>                  "mergeRules": {
-                      "output": "replace",
-                      "entry": "replace",
-                      "plugins": "append"
-                  }
-              }
+<pre class="language-json" data-title="angular.json"><code class="lang-json">  ...
+    "keycloak-theme": {
+      "projectType": "application",
+      "schematics": {},
+      <strong>"root": "projects/keycloak-theme",
+      "sourceRoot": "projects/keycloak-theme/src",
+      "prefix": "kc",</strong>
+      "architect": {
+        "build": {
+          <strong>"builder": "@analogjs/platform:vite",</strong>
+          "options": {
+            <strong>"configFile": "projects/keycloak-theme/vite.config.ts",
+            "outputPath": "projects/keycloak-theme/dist",
+            "main": "projects/keycloak-theme/src/main.ts",
+            "index": "projects/keycloak-theme/index.html",
+            "tsConfig": "projects/keycloak-theme/tsconfig.app.json"</strong>
           },
-          "development": {
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "./public"
-              }
-            ],
-              "buildOptimizer": false,
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
               "optimization": false,
-              "sourceMap": true,
-              "namedChunks": true
-          }
-      },
-      "defaultConfiguration": "production"
-  },
-    "serve": {
-      "builder": "@angular-builders/custom-webpack:dev-server",
-      "options": {
-        "buildTarget": "keycloakify-theme:build"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "keycloakify-theme:build:production"
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
         },
-        "development": {
-          "buildTarget": "keycloakify-theme:build:development"
+        "serve": {
+          <strong>"builder": "@analogjs/platform:vite-dev-server",</strong>
+          "configurations": {
+            "production": {
+              "buildTarget": "keycloak-theme:build:production",
+              <strong>"port": 5173</strong>
+            },
+            "development": {
+              "buildTarget": "keycloak-theme:build:development",
+              "hmr": true
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+          }
         }
-      },
-      "defaultConfiguration": "development"
+      }
     }
-  }
-},
 </code></pre>
 
 ## Use Keycloakify
 
 The application should now be good to go. Make sure that whenever you run a `npx keycloakify` command in your workspace root you add the path to your keycloakify project like this:\
-`npx keycloakify build --project projects/keycloakify-theme`
-
+`npx keycloakify build --project projects/keycloak-theme`
