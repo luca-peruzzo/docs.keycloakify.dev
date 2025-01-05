@@ -36,9 +36,9 @@ If you’re still unsure or want a better understanding before committing to usi
 [How does Keycloakify work?](https://app.gitbook.com/s/H3WkQf6kDTNqLCk7O5D7/how-it-works)
 {% endcontent-ref %}
 
-## Pick Your Framework: React, or Svelte (Angular comming soon)
+## Pick Your Framework: React, Angular or Svelte
 
-Keycloakify supports React, Angular[^2], and Svelte, allowing you to work with the framework you're most familiar with. If you're only making CSS-level customizations to Keycloak's built-in theme, any of these frameworks will work. For a smoother experience, **React** is recommended, as it has the most complete integration.
+Keycloakify supports React, [Angular ⚠️](#user-content-fn-2)[^2], and Svelte, allowing you to work with the framework you're most familiar with. If you're only making CSS-level customizations to Keycloak's built-in theme, any of these frameworks will work. For a smoother experience, **React** is recommended, as it has the most complete integration.
 
 For Angular and Svelte users, a few considerations apply:
 
@@ -56,6 +56,16 @@ Before futher reading, some practice!
 {% tab title="React" %}
 ```bash
 git clone https://github.com/keycloakify/keycloakify-starter
+```
+{% endtab %}
+
+{% tab title="Angular" %}
+{% hint style="danger" %}
+The Angular Support isn't fully stable yet.&#x20;
+{% endhint %}
+
+```bash
+git clone https://github.com/keycloakify/keycloakify-starter-angular-vite keycloakify-starter
 ```
 {% endtab %}
 
@@ -100,6 +110,13 @@ And import it:
 </code></pre>
 {% endtab %}
 
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/KcPage.ts"><code class="lang-typescript"><strong>import "./main.css";
+</strong>import { getDefaultPageComponent, type KcPage } from '@keycloakify/angular/login';
+// ...
+</code></pre>
+{% endtab %}
+
 {% tab title="Svelte" %}
 <pre class="language-html" data-title="src/login/KcPage.svelte"><code class="lang-html">&#x3C;script lang="ts">
 <strong>  import "./main.css";
@@ -121,7 +138,7 @@ Now let's see how CSS customization works in Keycloakify:
 
 [^1]: Of course, we can't guarantee that a given build of your theme will work with future major versions of Keycloak. However, our goal is to ensure that when a new Keycloak version introduces breaking changes, the only action required to make your theme compatible is updating the Keycloakify version and rebuilding your theme—no additional adjustments needed.
 
-[^2]: Comming soon
+[^2]: The Angular support isn't stable yet. We're working on it.
 
 [^3]: The difference exists because recent Keycloak versions use a React-based Account UI by default, which has not been ported to Angular or Svelte in Keycloakify due to the complexity involved. For Angular and Svelte projects, Keycloakify provides a base UI derived from an older version of the Keycloak Account UI, used before the switch to React.
 
