@@ -27,8 +27,24 @@ Even if you're using the Multi-Page theme you can still consume the REST API the
 
 {% embed url="https://youtu.be/FrFr-hqyjb4" %}
 
+{% tabs %}
+{% tab title="React" %}
 {% embed url="https://github.com/keycloakify/keycloakify-starter/tree/account_api_poc" %}
 Branch of the starter template modified to call the Account REST API
 {% endembed %}
+{% endtab %}
+
+{% tab title="Angualr" %}
+{% embed url="https://github.com/keycloakify/keycloakify-starter-angular-vite/tree/account_api_poc" %}
+Branch of the starter template modified to call the Account REST API
+{% endembed %}
+{% endtab %}
+
+{% tab title="Svelte" %}
+TODO
+{% endtab %}
+{% endtabs %}
+
+
 
 You can find the code for the Account v3 theme [here](https://github.com/keycloak/keycloak/tree/main/js/apps/account-ui/src/api). This will help you infer all the available endpoints. You can also enable the Account v3 theme in your Keycloak and use the network tab to see the available endpoints.

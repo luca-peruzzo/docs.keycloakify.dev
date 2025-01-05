@@ -6,7 +6,7 @@ icon: envelope
 
 There are two ways you can create a Keycloak Email theme with Keycloakify
 
-## Using the keycloakify-emails plugin
+## Using jsx-email
 
 {% hint style="warning" %}
 This approach only works in Vite project. So not with Webpack/Create-React-App
@@ -18,11 +18,13 @@ This plugin will evenutally be integrated to Keycloakify core but as for now it 
 
 {% embed url="https://github.com/timofei-iatsenko/keycloakify-emails" %}
 
-## Using FreeMarker
+## Unsing FreeMarker
 
 `npx keycloakify initialize-email-theme`, select the `native` option.
 
-Documentation under construction.
+Running this command will initialize a native email theme in the `src/email` directory.
+
+
 
 
 
