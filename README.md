@@ -42,7 +42,6 @@ Keycloakify supports React, Angular[^2], and Svelte, allowing you to work with t
 
 For Angular and Svelte users, a few considerations apply:
 
-* **Email Templates**: These must be created using React or FreeMarker; Angular and Svelte are not supported.
 * **Account Themes**: [The starting UI differs from Keycloak's default](#user-content-fn-3)[^3], requiring additional adjustments.
 * **Admin Themes**: Only React supports custom Admin UIs. However, since the Admin UI is only seen by the Keycloak instance administrator, it is rarely customized.
 * **Angular Setup**: [Keycloakify cannot be directly installed in an existing Angular project](#user-content-fn-4)[^4]. Themes must either be standalone projects or a subproject in a monorepo.
