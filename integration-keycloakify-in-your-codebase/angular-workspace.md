@@ -1,7 +1,3 @@
----
-hidden: true
----
-
 # Angular Workspace
 
 {% hint style="info" %}
@@ -35,7 +31,7 @@ rm -rf tmp
 
 Edit the highlighted path in `vite.config.ts` file to match the following configuration:
 
-<pre class="language-javascript" data-title="vite.config.ts"><code class="lang-javascript">/// <reference types="vitest" />
+<pre class="language-javascript" data-title="vite.config.ts"><code class="lang-javascript">/// 
 
 import { defineConfig } from 'vite';
 import angular from '@analogjs/vite-plugin-angular';
@@ -46,17 +42,17 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: ['es2022'],
   },
-  <strong>root: 'projects/keycloak-theme',</strong>
-  resolve: {
+<strong>  root: 'projects/keycloak-theme',
+</strong>  resolve: {
     mainFields: ['module'],
   },
   plugins: [
     angular(),
     keycloakify({
       accountThemeImplementation: 'none',
-      <strong>themeName: 'keycloak-theme',
-      keycloakifyBuildDirPath: '../../dist/keycloak-theme'</strong>
-    }),
+<strong>      themeName: 'keycloak-theme',
+</strong><strong>      keycloakifyBuildDirPath: '../../dist/keycloak-theme'
+</strong>    }),
   ],
   define: {
     'import.meta.vitest': mode !== 'production',
@@ -98,29 +94,29 @@ Ensure the following lines are present in your workspace's `package.json`:
 <strong>    "build-keycloak-theme": "ng build --project keycloak-theme &#x26;&#x26; npx keycloakify build --project projects/keycloak-theme",
 </strong>    ...
   },
-</strong>  "dependencies": {
+  "dependencies": {
     ...
 <strong>    "@keycloakify/angular": "^0.2.14",
-    "keycloakify": "^11.8.1",
-    "marked": "^5.0.2",
-    "marked-gfm-heading-id": "^3.0.4",
-    "marked-highlight": "^2.0.1",
-    "marked-mangle": "^1.1.7",
-    "prismjs": "^1.29.0",
+</strong><strong>    "keycloakify": "^11.8.1",
+</strong><strong>    "marked": "^5.0.2",
+</strong><strong>    "marked-gfm-heading-id": "^3.0.4",
+</strong><strong>    "marked-highlight": "^2.0.1",
+</strong><strong>    "marked-mangle": "^1.1.7",
+</strong><strong>    "prismjs": "^1.29.0",
 </strong>    ...
   },
   "devDependencies": {
     ...
 <strong>    "@analogjs/platform": "^1.11.0",
-    "@analogjs/vite-plugin-angular": "^1.9.0",
-    "@analogjs/vitest-angular": "^1.9.0",
-    "@angular-devkit/architect": "^0.1900.6",
-    "@nx/angular": "^20.3.0",
-    "@nx/devkit": "^20.3.0",
-    "@nx/vite": "^20.3.0",
-    "vite": "^5.0.0",
-    "vite-tsconfig-paths": "^4.2.0",
-    "vitest": "^2.0.0"
+</strong><strong>    "@analogjs/vite-plugin-angular": "^1.9.0",
+</strong><strong>    "@analogjs/vitest-angular": "^1.9.0",
+</strong><strong>    "@angular-devkit/architect": "^0.1900.6",
+</strong><strong>    "@nx/angular": "^20.3.0",
+</strong><strong>    "@nx/devkit": "^20.3.0",
+</strong><strong>    "@nx/vite": "^20.3.0",
+</strong><strong>    "vite": "^5.0.0",
+</strong><strong>    "vite-tsconfig-paths": "^4.2.0",
+</strong><strong>    "vitest": "^2.0.0"
 </strong>    ...
   }
 }
@@ -134,19 +130,19 @@ To integrate the **Keycloakify** project into your workspace, update the `angula
     "keycloak-theme": {
       "projectType": "application",
       "schematics": {},
-      <strong>"root": "projects/keycloak-theme",
-      "sourceRoot": "projects/keycloak-theme/src",
-      "prefix": "kc",</strong>
-      "architect": {
+<strong>      "root": "projects/keycloak-theme",
+</strong><strong>      "sourceRoot": "projects/keycloak-theme/src",
+</strong><strong>      "prefix": "kc",
+</strong>      "architect": {
         "build": {
-          <strong>"builder": "@analogjs/platform:vite",</strong>
-          "options": {
-            <strong>"configFile": "projects/keycloak-theme/vite.config.ts",
-            "outputPath": "projects/keycloak-theme/dist",
-            "main": "projects/keycloak-theme/src/main.ts",
-            "index": "projects/keycloak-theme/index.html",
-            "tsConfig": "projects/keycloak-theme/tsconfig.app.json"</strong>
-          },
+<strong>          "builder": "@analogjs/platform:vite",
+</strong>          "options": {
+<strong>            "configFile": "projects/keycloak-theme/vite.config.ts",
+</strong><strong>            "outputPath": "projects/keycloak-theme/dist",
+</strong><strong>            "main": "projects/keycloak-theme/src/main.ts",
+</strong><strong>            "index": "projects/keycloak-theme/index.html",
+</strong><strong>            "tsConfig": "projects/keycloak-theme/tsconfig.app.json"
+</strong>          },
           "configurations": {
             "production": {
               "budgets": [
@@ -172,12 +168,12 @@ To integrate the **Keycloakify** project into your workspace, update the `angula
           "defaultConfiguration": "production"
         },
         "serve": {
-          <strong>"builder": "@analogjs/platform:vite-dev-server",</strong>
-          "configurations": {
+<strong>          "builder": "@analogjs/platform:vite-dev-server",
+</strong>          "configurations": {
             "production": {
               "buildTarget": "keycloak-theme:build:production",
-              <strong>"port": 5173</strong>
-            },
+<strong>              "port": 5173
+</strong>            },
             "development": {
               "buildTarget": "keycloak-theme:build:development",
               "hmr": true
