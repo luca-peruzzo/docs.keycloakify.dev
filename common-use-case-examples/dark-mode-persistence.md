@@ -10,7 +10,7 @@ If your app offers a dark/light mode, you might be wondering how to “transfer�
 Example of a Keycloakify theme implementation that carries over dark mode
 {% endembed %}
 
-This is somewhat of a niche use case, but it illustrates how you can pass state from your application to your Keycloak UIs. &#x20;
+This is somewhat of a niche use case, but it illustrates how you can pass state from your application to your Keycloak UIs.
 
 ## In Your Web Application
 
@@ -22,9 +22,9 @@ What we want to do is append, for example, `&dark=true` or `&dark=false` to that
 
 How you do that depends on your stack. Let’s look at an example with:
 
-- A React SPA
-- [oidc-spa](https://www.oidc-spa.dev/), a modern alternative to `keycloak-js`
-- [MUI](https://mui.com/material-ui/), a popular React component library
+* A React SPA
+* [oidc-spa](https://www.oidc-spa.dev/), a modern alternative to `keycloak-js`
+* [MUI](https://mui.com/material-ui/), a popular React component library
 
 The following snippet is a React component typically placed in the header of your application for displaying Login and Register buttons.
 
@@ -98,7 +98,7 @@ Within your Keycloak theme, you can now create a utility to read your custom `&d
 ```typescript
 const SESSION_STORAGE_KEY = "isDark";
 
-function getIsDark(): boolean | undefined {
+function getIsDark(): boolean {
     from_url: {
         const url = new URL(window.location.href);
 
@@ -134,7 +134,8 @@ function getIsDark(): boolean | undefined {
         return value === "true";
     }
 
-    return undefined;
+    // Return the browser preference
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 ```
 {% endcode %}
@@ -146,8 +147,8 @@ import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/login/DefaultPage";
 import Template from "keycloakify/login/Template";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { getIsDark } from "../shared/isDark";
-const UserProfileFormFields = lazy(() => import("keycloakify/login/UserProfileFormFields"));
+<strong>import { getIsDark } from "../shared/isDark";
+</strong>const UserProfileFormFields = lazy(() => import("keycloakify/login/UserProfileFormFields"));
 
 const doMakeUserConfirmPassword = true;
 
@@ -164,8 +165,8 @@ const theme_light = createTheme({
 
 export default function KcPage(props: { kcContext: KcContext }) {
     return (
-        &#x3C;ThemeProvider theme={getIsDark() ? theme_dark : theme_light}>
-            &#x3C;KcPageContextualized {...props} />
+<strong>        &#x3C;ThemeProvider theme={getIsDark() ? theme_dark : theme_light}>
+</strong>            &#x3C;KcPageContextualized {...props} />
         &#x3C;/ThemeProvider>
     );
 }
