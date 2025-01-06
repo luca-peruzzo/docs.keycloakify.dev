@@ -86,7 +86,7 @@ Some pepoles want to be able to "hot swipe" the asset in the Keycloak file syste
 
 To ensure that the assets are located in a predictible location you would use the public/ directory.
 
-Move the file to **public/logo.png**.
+Move the file to **public/img/logo.png**.
 
 Then make an absolute import from your component: &#x20;
 
@@ -104,7 +104,7 @@ It's important that you do not simply harcode `src="/img/logo.png"`, or keycloak
     {/* ... */}
 </code></pre>
 
-Doing this is a good practice in any Vite project (not specially Keycloakify) since it ensure the correctness of your URLs even if you customize the "base" parameter in the your vite.config.ts. Writing "/img/logo.png" only works when base is "/" (which is the default)
+Doing this is a good practice in any Vite project (not specially Keycloakify) since it ensure the correctness of your URLs even if you customize the `base` parameter in the your **vite.config.ts**. Hard coding `"/img/logo.png"` only works when base is `"/"` (which is the default)
 {% endtab %}
 
 {% tab title="Svelte" %}
