@@ -105,7 +105,7 @@ And import it:
 
 {% tabs %}
 {% tab title="React" %}
-<pre class="language-tsx" data-title="src/login/KcApp.tsx"><code class="lang-tsx"><strong>import "./main.css";
+<pre class="language-tsx" data-title="src/login/KcPage.tsx"><code class="lang-tsx"><strong>import "./main.css";
 </strong>// ...
 </code></pre>
 {% endtab %}
