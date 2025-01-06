@@ -21,3 +21,8 @@ This command allows you to select specific components from Keycloakify's source 
 {% embed url="https://youtu.be/PhNE-3EwwP8" %}
 Video tutorial on how to use MUI to customize the login page
 {% endembed %}
+
+{% hint style="info" %}
+Disabling the default styles: One thing that is touched on [only late in the video](https://youtu.be/PhNE-3EwwP8?si=s3e9DjaIlhG2uxQC\&t=1338) is how to disable all the default styles. See documentation [here](../css-customization.md#remove-all-the-default-styles).
+{% endhint %}
+
