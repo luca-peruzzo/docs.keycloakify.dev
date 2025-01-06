@@ -31,23 +31,18 @@ We import the StyleSheet:
 </code></pre>
 {% endtab %}
 
+{% tab title="Angular" %}
+<pre class="language-typescript" data-title="src/login/KcPage.ts"><code class="lang-typescript"><strong>import "./main.css";
+</strong>import { getDefaultPageComponent, type KcPage } from '@keycloakify/angular/login';
+// ...
+</code></pre>
+{% endtab %}
+
 {% tab title="Svelte" %}
 <pre class="language-html" data-title="src/login/KcPage.svelte"><code class="lang-html">&#x3C;script lang="ts">
 <strong>  import "./main.css";
 </strong>  ...
 </code></pre>
-{% endtab %}
-
-{% tab title="Angular - Webpack" %}
-{% code title="angular.json" %}
-```json
-"build": {
-    "builder": "@angular-builders/custom-webpack:browser",
-    "options": {
-        "styles": ["src/styles.css"]
-    },
-```
-{% endcode %}
 {% endtab %}
 {% endtabs %}
 
