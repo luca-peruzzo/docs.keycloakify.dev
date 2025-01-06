@@ -78,7 +78,7 @@ You can open your browser’s developer tools to inspect the `kcContext` object 
 
 </details>
 
-Logging in with the test user redirects you to a page where you can inspect the decoded ID token (JWT) and access your custom Account and Admin themes (if you implement them).
+Logging in with the test user redirects you to a page where you can inspect the decoded ID token (JWT) and access your custom [Account](../theme-types/account-theme/) and [Admin](../theme-types/admin-theme.md) themes (if you implement them).
 
 <figure><img src="../.gitbook/assets/image (200).png" alt=""><figcaption></figcaption></figure>
 

@@ -24,8 +24,8 @@ If you’d like to see Keycloakify in action, check out [Neon](https://neon.tech
 You might be wondering why you would need a third-party tool like Keycloakify to create your custom UIs instead of relying solely on [Keycloak's built-in theming system](https://www.keycloak.org/docs/latest/server_development/#_themes). Here are a few reasons:
 
 * **Leverage Modern Frontend Technologies**: Keycloakify enables you to use TypeScript, React, Angular, Svelte, and any styling solution or component library you prefer, such as Tailwind, MUI, shadcn/ui, or plain CSS.
-* **Streamlined Testing**: Keycloakify makes it easy to test your theme both inside and outside Keycloak, with hot reloading for a smoother development experience.
-* **Automated Theme Bundling**: Keycloakify bundles your theme into a JAR file, ready to import directly into Keycloak.
+* **Streamlined Testing**: Keycloakify makes it easy to [test your theme](testing-your-theme/) both [inside](testing-your-theme/inside-of-keycloak.md) and [outside](testing-your-theme/outside-of-keycloak.md) Keycloak, with hot reloading for a smoother development experience.
+* **Automated Theme Bundling**: Keycloakify [bundles your theme into a JAR file](deploying-your-theme.md#building-the-jar-file), ready to import directly into Keycloak.
 * **Version Compatibility**: Themes generated with Keycloakify are backward compatible with Keycloak versions as far back as 11 and are [designed to remain compatible with future Keycloak updates](#user-content-fn-1)[^1].
 * **Built-In Real-Time Validation**: Keycloakify includes real-time frontend validation by default. For example, users receive instant feedback, such as "The password must be at least 12 characters long," rather than waiting until they press the submit button.
 * **Community Support**: We're here to help! If you're stuck or need guidance, reach out through our [Discord channel](https://discord.gg/kYFZG7fQmn) or [GitHub issues](https://github.com/keycloakify/keycloakify/issues/new). We respond quickly and are happy to assist.
