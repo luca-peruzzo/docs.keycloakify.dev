@@ -70,11 +70,13 @@ This is the result:
 
 <summary>Having different stylesheets for the login page, the register page, etc...</summary>
 
-Here, we used a global stylesheet that applies to all pages of the login theme. However, you can also apply different stylesheets on a page-by-page basis (one for the login page, another one for the register page, etc...).
+In this example, we use a global stylesheet that applies to all pages of the login theme. However, you can also assign different stylesheets on a page-by-page basis (e.g., one for the login page, another for the registration page, etc.).
 
-If you plan to customize the pages using React/Angular/Svelte at the component level, it will be very clear how to do so after reading the [using a component library page](common-use-case-examples/using-a-component-library.md).
+If you plan to customize the pages at the component level using React, Angular, or Svelte, you can skip this section. Once you've learned about the [`npx keycloakify eject-page`](common-use-case-examples/using-a-component-library.md) command, it will be straightforward to import different stylesheets for different ejected pages, and no additional instructions will be necessary.
 
-However, if you plan to only customize with CSS, it might not be immediately obvious. Below is [a snippet of React code](#user-content-fn-1)[^1] showing how you can achieve separate stylesheets:
+However, if you plan to customize the theme using only CSS without ejecting the pages, the process may not be immediately clear. \
+You need to be able to load different stylesheet based on the value of `kcContext.pageId`.\
+Below is a snippet of React code demonstrating how you can apply separate stylesheets for different pages:
 
 {% code title="src/login/KcPage.tsx" %}
 ```tsx
@@ -521,5 +523,3 @@ If you have ejected some pages with [`npx keycloakify eject-page`](common-use-ca
 The short answer is no; feel free to remove them.
 
 Just be aware that if you have defined any custom CSS targeting those classes (for example `.kcButtonClass { /* ... */ }`), they will no longer apply once you remove the classes.
-
-[^1]: If you’re using Angular or Svelte, you likely plan on customizing pages at the component level, so this may not be relevant to you.
