@@ -3,16 +3,16 @@
 {% hint style="info" %}
 **Before You Start**:
 
-This documentation section is intended for cases where **you already have an existing project** and want to add a Keycloak theme as part of its deliverables.
+This documentation section is intended for cases where **you already have an existing Vite project** and want to add a Keycloak theme as part of its deliverables.
 
 One of Keycloakify’s strengths is its ability to let you reuse components and styles from your main application in your Keycloak theme. However, if you don’t have an existing codebase, it’s easier to [fork one of the starter projects](#user-content-fn-1)[^1] and develop your Keycloak theme as a standalone project.
 {% endhint %}
 
 If you have a Vite project you can integrate Keycloakify directly inside it.
 
-Svelte: Althoug this guide use React as an example it's also applicable for Svelte, you just need to adapt it when relevent.
+Svelte: Although this guide uses React as an example it's also applicable for Svelte, you just need to adapt it when relevent.
 
-Let's assume we're working with a freshly initializated Vite project.
+Let's assume we're working with a freshly initialized Vite project.
 
 
 
@@ -21,7 +21,7 @@ Let's assume we're working with a freshly initializated Vite project.
 <figure><img src="../.gitbook/assets/image (155).png" alt="" width="368"><figcaption><p>Our codebase before installing Keycloakify</p></figcaption></figure>
 
 {% hint style="info" %}
-Before anything make sure to commit all your pending changes so you can easily revert changes if need be.
+Before anything, make sure to commit all your pending changes so you can easily revert changes if need be.
 {% endhint %}
 
 Let's start by installing Keycloakify (and optionally Storybook) to our project:
@@ -53,14 +53,14 @@ bun add --dev storybook @storybook/react @storybook/react-vite
 
 {% tab title="npm" %}
 ```bash
-npm install --save keycloakify
+npm install keycloakify
 # Installing storybook is optional
 npm install --save-dev storybook @storybook/react @storybook/react-vite
 ```
 {% endtab %}
 {% endtabs %}
 
-Next we want to repatriate the relevant files from [the starter template](https://github.com/keycloakify/keycloakify-starter) into our project:
+Next we want to move the relevant files from [the starter template](https://github.com/keycloakify/keycloakify-starter) into our project:
 
 ```bash
 cd my-react-app
@@ -77,7 +77,7 @@ rm src/keycloak-theme/vite-env.d.ts
 mv src/keycloak-theme/main.tsx src/main.tsx
 ```
 
-<figure><img src="../.gitbook/assets/after_import.png" alt="" width="370"><figcaption><p>State of your codebase after bringin in the Keycloakify boilerplate code.<br>Note thate the keycloak-theme (or keycloak_theme) directory can be located anywhere under your src directory.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/after_import.png" alt="" width="370"><figcaption><p>State of your codebase after bringing in the Keycloakify boilerplate code.<br>Note thate the keycloak-theme (or keycloak_theme) directory can be located anywhere under your src directory.</p></figcaption></figure>
 
 Now you want to modify your entry point so that:
 
@@ -104,7 +104,7 @@ createRoot(document.getElementById('root')!).render(
 ```
 {% endcode %}
 
-You want to **rename** this file to src/main.app.tsx (for example) and modify it as follow:
+You want to **rename** this file to src/main.app.tsx (for example) and modify it as follows:
 
 {% code title="src/main.app.tsx" %}
 ```tsx
@@ -126,7 +126,7 @@ export default function AppEntrypoint() {
 If you have some top level `await` and you don't know how to deal with thoses, join [the discord server](https://discord.com/invite/kYFZG7fQmn), I can help you out.
 {% endhint %}
 
-Then you want to create the following **src/main.tsx** file, you can copy paste the followint code, it does not need to be adapted:
+Then you want to create the following **src/main.tsx** file, you can copy and paste the following code (it does not need to be adapted):
 
 {% code title="src/main.tsx" %}
 ```tsx
@@ -204,7 +204,7 @@ Leave accountThemeImplementation set to "none" for now.\
 To initialize the account theme refer to [this guide](https://github.com/keycloakify/docs.keycloakify.dev/blob/v10/keycloakify-in-my-codebase/in-your-react-project/broken-reference/README.md).
 {% endhint %}
 
-Finally you want to add to your package.json a script for building the theme and another one to start storybook.
+Finally you want to add to your `package.json` a script for building the theme and another one to start storybook.
 
 <pre class="language-json" data-title="package.json"><code class="lang-json">{
   "name": "my-react-app",
@@ -223,9 +223,9 @@ Finally you want to add to your package.json a script for building the theme and
 Last setp is to exclude from your html `<head />` things that aren't relevent in the context of Keycloak pages. &#x20;
 
 {% hint style="danger" %}
-Do not blindely copy paste, this is just an example! &#x20;
+Do not blindly copy/paste, this is just an example! &#x20;
 
-You have to figure out what does and does not make sense to be in the \<head/> of your Keycloak UI pages.
+You have to figure out what does and does not make sense to be in the `<head/>` of your Keycloak UI pages.
 {% endhint %}
 
 <pre class="language-html" data-title="public/index.html"><code class="lang-html">&#x3C;!doctype html>
@@ -253,7 +253,7 @@ You have to figure out what does and does not make sense to be in the \<head/> o
 &#x3C;!-- ... -->
 </code></pre>
 
-In the above example we tell keycloakify not to include the `<title>` because keycloakify will set it dynamically to something like _"ACME- Login"_ or _"ACME - Register"_. &#x20;
+In the above example we tell Keycloakify not to include the `<title>` because Keycloakify will set it dynamically to something like _"ACME- Login"_ or _"ACME - Register"_. &#x20;
 
 We also exclude a placeholder script for injecting environnement variables at container startup.
 
@@ -261,7 +261,7 @@ We also exclude a placeholder script for injecting environnement variables at co
 
 **That's it, your project is ready to go!** :tada:
 
-You can run npm run build-keycloak-theme, the JAR distribution of your Keycloak theme will be generated in dist\_keycloak.
+You can run `npm run build-keycloak-theme`, the JAR distribution of your Keycloak theme will be generated in `dist\_keycloak`.
 
 You're now able to use all the Keycloakify commands (`npx keycloakify --help`) from the root of your project.
 
