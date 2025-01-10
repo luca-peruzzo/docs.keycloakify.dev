@@ -17,7 +17,7 @@ For a visual preview of these UIs as they appear with Keycloak's built-in theme,
 
 Whether you need to apply light CSS-level customizations to the built-in UIs or perform deeper redesigns at the component level using React, Angular, or Svelte, Keycloakify is the tool to achieve your goals.\
 \
-If you’d like to see Keycloakify in action, check out [Neon](https://neon.tech/). Clicking "Login" or "Sign Up" will take you to their Keycloakify-themed login pages.
+If you’d like to see Keycloakify in action, check out [Neon](https://neon.tech/). Clicking **Login** or **Sign Up** will take you to their Keycloakify-themed login pages.
 
 ## Why Choose Keycloakify?
 
