@@ -14,7 +14,7 @@ This approach only works in Vite project. So not with Webpack/Create-React-App
 
 [keycloakify-email](https://github.com/timofei-iatsenko/keycloakify-emails) is a Keycloakify plugin that enable to create an email theme using [jsx-email](https://jsx.email/). &#x20;
 
-{% embed url="https://github.com/timofei-iatsenko/keycloakify-emails" %}
+{% embed url="https://github.com/garronej/keycloakify-emails/tree/email_dir_location" %}
 
 _This plugin will evenutally be integrated to Keycloakify core._  \
 \
