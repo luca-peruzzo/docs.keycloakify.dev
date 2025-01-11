@@ -4,6 +4,32 @@ description: Customizing the Single Page Account UI
 
 # Single-Page
 
+
+
+To initialize a Single-Page account theme run the following command:
+
+```bash
+npx keycloakify initialize-account-theme # Select 'Sigle-Page'
+```
+
+This command will add the required dependencies to your project and create the **src/account** directory. It will also set themeAccountImplementation to `"Single-Page"` in your [**vite.config.ts**](#user-content-fn-1)[^1]. &#x20;
+
+
+
+ddd
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% hint style="danger" %}
 This documentation section is outdated. \
 If you run npx keycloakify initialize-account-theme today and select Single-Page, what you will get greatly differs from what's explained here.  \
@@ -354,3 +380,5 @@ The readme is generated automatically, you can trust that is always up do date.
 You migh wonder why there's only RC releases of @keycloakify/keycloak-account-ui, it's because we want to match the version number of the upstream package @keycloak/keycloak-account-ui but still be able to publish update when minor changes on the re-packaging distribution is needed. &#x20;
 
 ##
+
+[^1]: Or package.json for Webpack projects
