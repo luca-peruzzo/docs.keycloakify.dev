@@ -1,6 +1,6 @@
 # Adding Support for Extra Languages
 
-Keycloak, out of the box come with availaible translation for the following languages:
+There are currenly 30 languages supported by default (see list below). If a language you want to support is not in the list, this section will explain how to manually add it. &#x20;
 
 1. ar - Arabic
 2. ca - Catalan
@@ -33,11 +33,7 @@ Keycloak, out of the box come with availaible translation for the following lang
 29. zh-CN - Chinese (Simplified)
 30. zh-TW - Chinese (Traditional)
 
-{% hint style="success" %}
-If the languages you with to support is included in this list, great, you can [skip to the next section](previewing-your-pages-in-different-languages.md) otherwise keep reading.
-{% endhint %}
-
-Let's see how to add support for an extra language so you can enable it in the Keycloak Admin UI.
+You're language is not in the list? Let's see how to add it and enable it in the Keycloak Admin UI.
 
 In this example we're going to add Hindi (hi).
 
