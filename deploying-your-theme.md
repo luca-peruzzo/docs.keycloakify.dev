@@ -156,14 +156,22 @@ name: keycloak
 version: 1.0.0
 dependencies:
   - name: keycloak
-    version: 22.2.4 # Keycloak 25.0.5
+    version: 24.4.4 # Keycloak 26.1.0
     repository: oci://registry-1.docker.io/bitnamicharts
 ```
 {% endcode %}
 
 Here we only list the relevant values:
 
-<pre class="language-yaml" data-title="values.yaml"><code class="lang-yaml">keycloak:
+{% code title="values.yaml" %}
+```yaml
+keycloak:
+
+  # OPTIONAL: Here you can define env var that you can access in your theme, see: https://docs.keycloakify.dev/features/environment-variables
+  extraEnvVars:
+    - name: MY_APP_PALLET
+      value: "monokai"
+
   initContainers:
     - name: realm-ext-provider
       image: curlimages/curl
@@ -173,9 +181,9 @@ Here we only list the relevant values:
       args:
         - -c
         - |
-<strong>          # Replace USER and PROJECT, use the correct version of the jar for the keycloak version you are deploying    
-</strong><strong>          curl -L -f -S -o /extensions/keycloak-theme.jar https://github.com/USER/PROJECT/releases/download/v11.3.16/keycloak-theme-for-kc-22-to-25.jar
-</strong>
+          # Replace USER and PROJECT, use the correct version of the jar for the keycloak version you are deploying    
+          curl -L -f -S -o /extensions/keycloak-theme.jar https://github.com/USER/PROJECT/releases/download/VERSION/keycloak-theme-for-kc-all-other-versions.jar
+
       volumeMounts:
         - name: extensions
           mountPath: /extensions
@@ -187,7 +195,12 @@ Here we only list the relevant values:
   extraVolumes:
     - name: extensions
       emptyDir: {}
-</code></pre>
+      volumeMounts:
+        - name: empty-dir
+          mountPath: /extensions
+          subPath: app-providers-dir
+```
+{% endcode %}
 
 Read [this section of the starter project readme](https://github.com/keycloakify/keycloakify-starter?tab=readme-ov-file#github-actions) to learn how to get GitHub Action to publish your theme's JAR as assets of your GitHub release.
 {% endtab %}
