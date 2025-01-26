@@ -11,10 +11,10 @@ In the Account Single-Page theme, things works differently. [See relevent doc](h
 
 In the Keycloak Admin Console you can enable localisation by selecting a set of language that you wish to support:
 
-<figure><img src="../../.gitbook/assets/image (15).png" alt=""><figcaption><p>Enabeling English, French ans Spanish as supported language in a Keycloak Reaml</p></figcaption></figure>
+<figure><img src="../../.gitbook/assets/image (15).png" alt=""><figcaption><p>Enabling English, French and Spanish as supported languages in a Keycloak Realm</p></figcaption></figure>
 
 {% hint style="info" %}
-The language that you want to support isn't in the default set? You can add support for it with Keycloakify. [See how](adding-support-for-extra-languages.md).
+Want to add languages not in the default set into Keycloakify? [See how](adding-support-for-extra-languages.md).
 {% endhint %}
 
 When Internationalization is enabled you will see a language dropdown select in your UIs:
